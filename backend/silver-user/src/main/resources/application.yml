@@ -1,0 +1,30 @@
+server:
+  port: 9101
+
+spring:
+  application:
+    name: silver-user
+  cloud:
+    nacos:
+      server-addr: ${NACOS_ADDR:127.0.0.1:8848}
+      discovery:
+        enabled: ${NACOS_ENABLED:false}
+      config:
+        enabled: ${NACOS_ENABLED:false}
+  data:
+    redis:
+      host: ${REDIS_HOST:127.0.0.1}
+      port: ${REDIS_PORT:6379}
+      database: ${REDIS_DB:0}
+
+sa-token:
+  token-name: Authorization
+  timeout: 2592000
+  is-concurrent: true
+  is-share: false
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info

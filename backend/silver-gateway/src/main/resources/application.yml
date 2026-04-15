@@ -1,0 +1,45 @@
+server:
+  port: 9000
+
+spring:
+  application:
+    name: silver-gateway
+  cloud:
+    nacos:
+      server-addr: ${NACOS_ADDR:127.0.0.1:8848}
+      discovery:
+        enabled: ${NACOS_ENABLED:false}
+      config:
+        enabled: ${NACOS_ENABLED:false}
+    gateway:
+      routes:
+        - id: user-service
+          uri: lb://silver-user
+          predicates:
+            - Path=/api/user/**
+          filters:
+            - StripPrefix=1
+        - id: content-service
+          uri: lb://silver-content
+          predicates:
+            - Path=/api/content/**
+          filters:
+            - StripPrefix=1
+        - id: course-service
+          uri: lb://silver-course
+          predicates:
+            - Path=/api/course/**
+          filters:
+            - StripPrefix=1
+
+sa-token:
+  token-name: Authorization
+  timeout: 2592000
+  is-concurrent: true
+  is-share: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
