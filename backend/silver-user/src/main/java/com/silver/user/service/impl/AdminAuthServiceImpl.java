@@ -4,12 +4,12 @@ import com.silver.common.auth.StpAdminUtil;
 import com.silver.common.exception.BusinessException;
 import com.silver.user.converter.UserResponseConverter;
 import com.silver.user.errorcode.UserErrorCodes;
-import com.silver.user.model.AdminAccount;
+import com.silver.user.model.AdminAccountEntity;
 import com.silver.user.model.request.AdminLoginRequest;
 import com.silver.user.model.response.AdminLoginResponse;
 import com.silver.user.model.response.AdminProfileResponse;
 import com.silver.user.service.AdminAuthService;
-import com.silver.user.service.UserDirectory;
+import com.silver.user.service.IAdminAccountInfraService;
 import java.time.LocalDateTime;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -24,7 +24,7 @@ public class AdminAuthServiceImpl implements AdminAuthService {
     /**
      * 用户目录服务。
      */
-    private final UserDirectory userDirectory;
+    private final IAdminAccountInfraService adminAccountInfraService;
     /**
      * 密码编码器。
      */
@@ -40,10 +40,10 @@ public class AdminAuthServiceImpl implements AdminAuthService {
      * @param userDirectory 用户目录服务
      * @param passwordEncoder 密码编码器
      */
-    public AdminAuthServiceImpl(UserDirectory userDirectory,
+    public AdminAuthServiceImpl(IAdminAccountInfraService adminAccountInfraService,
                                 BCryptPasswordEncoder passwordEncoder,
                                 UserResponseConverter userResponseConverter) {
-        this.userDirectory = userDirectory;
+        this.adminAccountInfraService = adminAccountInfraService;
         this.passwordEncoder = passwordEncoder;
         this.userResponseConverter = userResponseConverter;
     }
@@ -60,7 +60,7 @@ public class AdminAuthServiceImpl implements AdminAuthService {
             throw new BusinessException(UserErrorCodes.ADMIN_LOGIN_PARAM_INVALID);
         }
 
-        AdminAccount adminAccount = userDirectory.findAdminByUsername(request.getUsername().trim())
+        AdminAccountEntity adminAccount = adminAccountInfraService.findByUsername(request.getUsername().trim())
                 .orElseThrow(() -> new BusinessException(UserErrorCodes.ADMIN_LOGIN_FAIL));
         if (!"ENABLED".equals(adminAccount.getStatus())) {
             throw new BusinessException(UserErrorCodes.ADMIN_ACCOUNT_DISABLED);
@@ -71,7 +71,7 @@ public class AdminAuthServiceImpl implements AdminAuthService {
 
         adminAccount.setLastLoginTime(LocalDateTime.now());
         adminAccount.setUpdatedAt(LocalDateTime.now());
-        userDirectory.saveAdmin(adminAccount);
+        adminAccountInfraService.updateById(adminAccount);
 
         StpAdminUtil.stpLogic().login(adminAccount.getId());
         return userResponseConverter.toAdminLoginResponse(
@@ -99,7 +99,7 @@ public class AdminAuthServiceImpl implements AdminAuthService {
     public AdminProfileResponse currentAdmin() {
         StpAdminUtil.stpLogic().checkLogin();
         long adminId = StpAdminUtil.stpLogic().getLoginIdAsLong();
-        AdminAccount adminAccount = userDirectory.getAdminById(adminId)
+        AdminAccountEntity adminAccount = adminAccountInfraService.findByAdminId(adminId)
                 .orElseThrow(() -> new BusinessException(UserErrorCodes.ADMIN_NOT_FOUND));
 
         return userResponseConverter.toAdminProfileResponse(adminAccount, StpAdminUtil.LOGIN_TYPE);

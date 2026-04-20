@@ -1,6 +1,6 @@
 package com.silver.content.model.response;
 
-import com.silver.content.model.ContentItem;
+import com.silver.content.model.ContentItemEntity;
 import java.util.List;
 
 /**
@@ -11,7 +11,7 @@ public class ContentPageResponse {
     /** 总记录数。 */
     private long total;
     /** 当前页数据。 */
-    private List<ContentItem> list;
+    private List<ContentItemEntity> list;
 
     public long getTotal() {
         return total;
@@ -21,11 +21,11 @@ public class ContentPageResponse {
         this.total = total;
     }
 
-    public List<ContentItem> getList() {
+    public List<ContentItemEntity> getList() {
         return list;
     }
 
-    public void setList(List<ContentItem> list) {
+    public void setList(List<ContentItemEntity> list) {
         this.list = list;
     }
 }

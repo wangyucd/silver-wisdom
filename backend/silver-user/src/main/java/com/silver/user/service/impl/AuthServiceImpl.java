@@ -4,12 +4,12 @@ import com.silver.common.auth.StpMiniappUtil;
 import com.silver.common.exception.BusinessException;
 import com.silver.user.converter.UserResponseConverter;
 import com.silver.user.errorcode.UserErrorCodes;
-import com.silver.user.model.UserAccount;
+import com.silver.user.model.UserAccountEntity;
 import com.silver.user.model.request.WxLoginRequest;
 import com.silver.user.model.response.CurrentUserResponse;
 import com.silver.user.model.response.LoginResponse;
 import com.silver.user.service.AuthService;
-import com.silver.user.service.UserDirectory;
+import com.silver.user.service.IUserAccountInfraService;
 import com.silver.user.service.WxOpenIdResolver;
 import java.time.LocalDateTime;
 import org.springframework.stereotype.Service;
@@ -28,7 +28,7 @@ public class AuthServiceImpl implements AuthService {
     /**
      * 用户目录服务。
      */
-    private final UserDirectory userDirectory;
+    private final IUserAccountInfraService userAccountInfraService;
     /**
      * 用户响应转换器。
      */
@@ -41,10 +41,10 @@ public class AuthServiceImpl implements AuthService {
      * @param userDirectory 用户目录服务
      */
     public AuthServiceImpl(WxOpenIdResolver wxOpenIdResolver,
-                           UserDirectory userDirectory,
+                           IUserAccountInfraService userAccountInfraService,
                            UserResponseConverter userResponseConverter) {
         this.wxOpenIdResolver = wxOpenIdResolver;
-        this.userDirectory = userDirectory;
+        this.userAccountInfraService = userAccountInfraService;
         this.userResponseConverter = userResponseConverter;
     }
 
@@ -61,10 +61,10 @@ public class AuthServiceImpl implements AuthService {
         }
 
         String openId = wxOpenIdResolver.resolveOpenId(request.getCode().trim());
-        UserAccount userAccount = userDirectory.findUserByOpenId(openId).orElse(null);
+        UserAccountEntity userAccount = userAccountInfraService.findByOpenId(openId).orElse(null);
         boolean newUser = false;
         if (userAccount == null) {
-            userAccount = userDirectory.createMiniappUser(openId);
+            userAccount = userAccountInfraService.createMiniappUser(openId);
             newUser = true;
         }
         if (!"ENABLED".equals(userAccount.getStatus())) {
@@ -73,7 +73,7 @@ public class AuthServiceImpl implements AuthService {
 
         userAccount.setLastLoginTime(LocalDateTime.now());
         userAccount.setUpdatedAt(LocalDateTime.now());
-        userDirectory.saveUser(userAccount);
+        userAccountInfraService.updateById(userAccount);
 
         StpMiniappUtil.stpLogic().login(userAccount.getId());
         return userResponseConverter.toLoginResponse(
@@ -103,7 +103,7 @@ public class AuthServiceImpl implements AuthService {
         StpMiniappUtil.stpLogic().checkLogin();
 
         long userId = StpMiniappUtil.stpLogic().getLoginIdAsLong();
-        UserAccount userAccount = userDirectory.getUserById(userId)
+        UserAccountEntity userAccount = userAccountInfraService.findByUserId(userId)
                 .orElseThrow(() -> new BusinessException(UserErrorCodes.CURRENT_USER_NOT_FOUND));
         if (!"ENABLED".equals(userAccount.getStatus())) {
             throw new BusinessException(UserErrorCodes.USER_ACCOUNT_DISABLED);

@@ -4,6 +4,11 @@ server:
 spring:
   application:
     name: silver-course
+  datasource:
+    url: jdbc:mysql://${MYSQL_HOST:127.0.0.1}:${MYSQL_PORT:3306}/${MYSQL_DB:silver_wisdom}?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&useSSL=false
+    username: ${MYSQL_USERNAME:root}
+    password: ${MYSQL_PASSWORD:root}
+    driver-class-name: com.mysql.cj.jdbc.Driver
   cloud:
     nacos:
       server-addr: ${NACOS_ADDR:127.0.0.1:8848}
@@ -30,3 +35,7 @@ management:
     web:
       exposure:
         include: health,info
+
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true

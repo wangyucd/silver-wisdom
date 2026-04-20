@@ -74,11 +74,11 @@ public class ContentUpsertRequest {
         this.videoUrl = videoUrl;
     }
 
-    public Long getCategoryId() {
+    public Long getCategoryEntityId() {
         return categoryId;
     }
 
-    public void setCategoryId(Long categoryId) {
+    public void setCategoryEntityId(Long categoryId) {
         this.categoryId = categoryId;
     }
 

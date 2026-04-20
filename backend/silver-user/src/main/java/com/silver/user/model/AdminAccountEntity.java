@@ -1,13 +1,18 @@
 package com.silver.user.model;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import java.time.LocalDateTime;
 
 /**
  * 管理员账号实体。
  */
-public class AdminAccount {
+@TableName("admin_account")
+public class AdminAccountEntity {
 
     /** 管理员主键。 */
+    @TableId(type = IdType.AUTO)
     private Long id;
     /** 登录账号。 */
     private String username;

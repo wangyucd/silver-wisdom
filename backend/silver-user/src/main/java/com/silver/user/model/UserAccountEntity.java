@@ -1,5 +1,9 @@
 package com.silver.user.model;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -7,11 +11,14 @@ import java.util.List;
 /**
  * 小程序用户实体。
  */
-public class UserAccount {
+@TableName("user_account")
+public class UserAccountEntity {
 
     /** 用户主键。 */
+    @TableId(type = IdType.AUTO)
     private Long id;
     /** 微信 openId。 */
+    @TableField("wx_openid")
     private String openId;
     /** 用户昵称。 */
     private String nickname;
@@ -26,7 +33,8 @@ public class UserAccount {
     /** 更新时间。 */
     private LocalDateTime updatedAt;
     /** 兴趣标签列表。 */
-    private final List<UserInterestTag> tags = new ArrayList<>();
+    @TableField(exist = false)
+    private final List<UserInterestTagEntity> tags = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -92,7 +100,7 @@ public class UserAccount {
         this.updatedAt = updatedAt;
     }
 
-    public List<UserInterestTag> getTags() {
+    public List<UserInterestTagEntity> getTags() {
         return tags;
     }
 }

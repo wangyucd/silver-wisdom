@@ -1,5 +1,9 @@
 package com.silver.content.model;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -7,9 +11,11 @@ import java.util.List;
 /**
  * 内容实体。
  */
-public class ContentItem {
+@TableName("content_item")
+public class ContentItemEntity {
 
     /** 内容ID。 */
+    @TableId(type = IdType.AUTO)
     private Long id;
     /** 内容标题。 */
     private String title;
@@ -29,7 +35,12 @@ public class ContentItem {
     private int heatScore;
     /** 发布时间。 */
     private LocalDateTime publishTime;
+    /** 发布状态。 */
+    private String publishStatus;
+    /** 创建管理员ID。 */
+    private Long createdBy;
     /** 标签列表。 */
+    @TableField(exist = false)
     private final List<String> tags = new ArrayList<>();
 
     public Long getId() {
@@ -88,11 +99,11 @@ public class ContentItem {
         this.videoUrl = videoUrl;
     }
 
-    public Long getCategoryId() {
+    public Long getCategoryEntityId() {
         return categoryId;
     }
 
-    public void setCategoryId(Long categoryId) {
+    public void setCategoryEntityId(Long categoryId) {
         this.categoryId = categoryId;
     }
 
@@ -110,6 +121,22 @@ public class ContentItem {
 
     public void setPublishTime(LocalDateTime publishTime) {
         this.publishTime = publishTime;
+    }
+
+    public String getPublishStatus() {
+        return publishStatus;
+    }
+
+    public void setPublishStatus(String publishStatus) {
+        this.publishStatus = publishStatus;
+    }
+
+    public Long getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(Long createdBy) {
+        this.createdBy = createdBy;
     }
 
     public List<String> getTags() {

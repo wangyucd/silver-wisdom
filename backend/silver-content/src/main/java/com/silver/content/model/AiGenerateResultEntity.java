@@ -1,10 +1,20 @@
 package com.silver.content.model;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+
 /**
  * AI 生成结果。
  */
-public class AiGenerateResult {
+@TableName("ai_generate_result")
+public class AiGenerateResultEntity {
 
+    /** 主键ID。 */
+    @TableId(type = IdType.AUTO)
+    private Long id;
+    /** 任务号。 */
+    private String taskId;
     /** 结果标题。 */
     private String title;
     /** 结果摘要。 */
@@ -13,6 +23,22 @@ public class AiGenerateResult {
     private String body;
     /** 结果大纲。 */
     private String outline;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getTaskId() {
+        return taskId;
+    }
+
+    public void setTaskId(String taskId) {
+        this.taskId = taskId;
+    }
 
     public String getTitle() {
         return title;

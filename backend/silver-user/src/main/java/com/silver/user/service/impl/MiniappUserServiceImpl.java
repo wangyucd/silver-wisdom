@@ -5,8 +5,8 @@ import com.silver.common.auth.StpMiniappUtil;
 import com.silver.common.exception.BusinessException;
 import com.silver.user.converter.UserResponseConverter;
 import com.silver.user.errorcode.UserErrorCodes;
-import com.silver.user.model.UserAccount;
-import com.silver.user.model.UserInterestTag;
+import com.silver.user.model.UserAccountEntity;
+import com.silver.user.model.UserInterestTagEntity;
 import com.silver.user.model.UserLearningSummary;
 import com.silver.user.model.request.OnboardingRequest;
 import com.silver.user.model.request.UpdateUserStatusRequest;
@@ -14,8 +14,8 @@ import com.silver.user.model.response.UserDetailResponse;
 import com.silver.user.model.response.UserListItemResponse;
 import com.silver.user.model.response.UserPageResponse;
 import com.silver.user.model.response.UserTagResponse;
+import com.silver.user.service.IUserAccountInfraService;
 import com.silver.user.service.MiniappUserService;
-import com.silver.user.service.UserDirectory;
 import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
@@ -34,7 +34,7 @@ public class MiniappUserServiceImpl implements MiniappUserService {
     /**
      * 用户目录服务。
      */
-    private final UserDirectory userDirectory;
+    private final IUserAccountInfraService userAccountInfraService;
     /**
      * 用户响应转换器。
      */
@@ -45,8 +45,9 @@ public class MiniappUserServiceImpl implements MiniappUserService {
      *
      * @param userDirectory 用户目录服务
      */
-    public MiniappUserServiceImpl(UserDirectory userDirectory, UserResponseConverter userResponseConverter) {
-        this.userDirectory = userDirectory;
+    public MiniappUserServiceImpl(IUserAccountInfraService userAccountInfraService,
+                                  UserResponseConverter userResponseConverter) {
+        this.userAccountInfraService = userAccountInfraService;
         this.userResponseConverter = userResponseConverter;
     }
 
@@ -59,18 +60,18 @@ public class MiniappUserServiceImpl implements MiniappUserService {
     @Override
     public UserTagResponse saveOnboarding(OnboardingRequest request) {
         StpMiniappUtil.stpLogic().checkLogin();
-        UserAccount userAccount = loadCurrentUser();
+        UserAccountEntity userAccount = loadCurrentUser();
         if (request == null || CollectionUtils.isEmpty(request.getTags())) {
             throw new BusinessException(UserErrorCodes.USER_TAGS_REQUIRED);
         }
         userAccount.getTags().clear();
         for (String currentTag : request.getTags()) {
             if (StringUtils.hasText(currentTag)) {
-                userAccount.getTags().add(new UserInterestTag(currentTag.trim(), 1.0));
+                userAccount.getTags().add(new UserInterestTagEntity(currentTag.trim(), 1.0));
             }
         }
         userAccount.setUpdatedAt(LocalDateTime.now());
-        userDirectory.saveUser(userAccount);
+        userAccountInfraService.updateById(userAccount);
         return userResponseConverter.toUserTagResponse(userAccount.getTags());
     }
 
@@ -82,7 +83,7 @@ public class MiniappUserServiceImpl implements MiniappUserService {
     @Override
     public UserTagResponse currentUserTags() {
         StpMiniappUtil.stpLogic().checkLogin();
-        UserAccount userAccount = loadCurrentUser();
+        UserAccountEntity userAccount = loadCurrentUser();
         return userResponseConverter.toUserTagResponse(userAccount.getTags());
     }
 
@@ -101,10 +102,10 @@ public class MiniappUserServiceImpl implements MiniappUserService {
         int normalizedPageNum = Math.max(pageNum, 1);
         int normalizedPageSize = Math.max(pageSize, 1);
 
-        List<UserListItemResponse> items = userDirectory.listUsers().stream()
+        List<UserListItemResponse> items = userAccountInfraService.listUsersWithTags().stream()
                 .filter(user -> matchKeyword(user, keyword))
                 .filter(user -> matchStatus(user, status))
-                .sorted(Comparator.comparing(UserAccount::getCreatedAt).reversed())
+                .sorted(Comparator.comparing(UserAccountEntity::getCreatedAt).reversed())
                 .map(this::toUserListItem)
                 .toList();
 
@@ -126,7 +127,7 @@ public class MiniappUserServiceImpl implements MiniappUserService {
     @Override
     public UserDetailResponse adminUserDetail(Long userId) {
         StpAdminUtil.stpLogic().checkLogin();
-        UserAccount userAccount = userDirectory.getUserById(userId)
+        UserAccountEntity userAccount = userAccountInfraService.findByUserId(userId)
                 .orElseThrow(() -> new BusinessException(UserErrorCodes.USER_NOT_FOUND));
         return userResponseConverter.toUserDetailResponse(userAccount, buildLearningSummary(userAccount.getId()));
     }
@@ -147,11 +148,11 @@ public class MiniappUserServiceImpl implements MiniappUserService {
         if (!"ENABLED".equals(status) && !"DISABLED".equals(status)) {
             throw new BusinessException(UserErrorCodes.USER_STATUS_INVALID);
         }
-        UserAccount userAccount = userDirectory.getUserById(userId)
+        UserAccountEntity userAccount = userAccountInfraService.findByUserId(userId)
                 .orElseThrow(() -> new BusinessException(UserErrorCodes.USER_NOT_FOUND));
         userAccount.setStatus(status);
         userAccount.setUpdatedAt(LocalDateTime.now());
-        userDirectory.saveUser(userAccount);
+        userAccountInfraService.updateById(userAccount);
     }
 
     /**
@@ -159,9 +160,9 @@ public class MiniappUserServiceImpl implements MiniappUserService {
      *
      * @return 当前用户
      */
-    private UserAccount loadCurrentUser() {
+    private UserAccountEntity loadCurrentUser() {
         long userId = StpMiniappUtil.stpLogic().getLoginIdAsLong();
-        UserAccount userAccount = userDirectory.getUserById(userId)
+        UserAccountEntity userAccount = userAccountInfraService.findByUserId(userId)
                 .orElseThrow(() -> new BusinessException(UserErrorCodes.USER_NOT_FOUND));
         if (!"ENABLED".equals(userAccount.getStatus())) {
             throw new BusinessException(UserErrorCodes.USER_ACCOUNT_DISABLED);
@@ -176,7 +177,7 @@ public class MiniappUserServiceImpl implements MiniappUserService {
      * @param keyword 关键字
      * @return 是否命中
      */
-    private boolean matchKeyword(UserAccount userAccount, String keyword) {
+    private boolean matchKeyword(UserAccountEntity userAccount, String keyword) {
         if (!StringUtils.hasText(keyword)) {
             return true;
         }
@@ -192,7 +193,7 @@ public class MiniappUserServiceImpl implements MiniappUserService {
      * @param status 状态
      * @return 是否命中
      */
-    private boolean matchStatus(UserAccount userAccount, String status) {
+    private boolean matchStatus(UserAccountEntity userAccount, String status) {
         if (!StringUtils.hasText(status)) {
             return true;
         }
@@ -205,10 +206,10 @@ public class MiniappUserServiceImpl implements MiniappUserService {
      * @param userAccount 用户信息
      * @return 列表项响应
      */
-    private UserListItemResponse toUserListItem(UserAccount userAccount) {
+    private UserListItemResponse toUserListItem(UserAccountEntity userAccount) {
         return userResponseConverter.toUserListItemResponse(
                 userAccount,
-                userAccount.getTags().stream().limit(3).map(UserInterestTag::getTag).collect(Collectors.toList())
+                userAccount.getTags().stream().limit(3).map(UserInterestTagEntity::getTag).collect(Collectors.toList())
         );
     }
 

@@ -1,6 +1,6 @@
 package com.silver.user.model.response;
 
-import com.silver.user.model.UserInterestTag;
+import com.silver.user.model.UserInterestTagEntity;
 import java.util.List;
 
 /**
@@ -9,13 +9,13 @@ import java.util.List;
 public class UserTagResponse {
 
     /** 标签列表。 */
-    private List<UserInterestTag> tags;
+    private List<UserInterestTagEntity> tags;
 
-    public List<UserInterestTag> getTags() {
+    public List<UserInterestTagEntity> getTags() {
         return tags;
     }
 
-    public void setTags(List<UserInterestTag> tags) {
+    public void setTags(List<UserInterestTagEntity> tags) {
         this.tags = tags;
     }
 }

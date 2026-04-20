@@ -36,6 +36,7 @@
 - 方法 JavaDoc 至少说明用途；有入参写 `@param`，有返回值写 `@return`，有异常写 `@throws`。
 - 禁止空洞注释，如“方法说明”“TODO”“处理逻辑”等占位内容。
 - `entity`、`pojo`、`dto`、`request`、`response`、`query`、`command` 等数据对象字段上方必须补充中文注释，准确描述业务含义。
+- `entity`、`dto`、`request`、`response`、`query`、`command` 等常规数据对象，优先使用 `Lombok` 注解简化样板代码；非必要不要手写大段重复 `get/set`、构造方法。
 - `VO` 不是默认通用命名；仅在明确表达展示聚合对象时使用，普通接口返回对象优先命名为 `XxxResponse`。
 - 状态、枚举、布尔、时间、ID 等字段需明确取值语义或用途。
 

@@ -1,9 +1,9 @@
 package com.silver.content.controller;
 
 import com.silver.common.api.R;
-import com.silver.content.model.Category;
-import com.silver.content.model.ContentItem;
-import com.silver.content.model.Hotspot;
+import com.silver.content.model.CategoryEntity;
+import com.silver.content.model.ContentItemEntity;
+import com.silver.content.model.HotspotEntity;
 import com.silver.content.model.request.AiChatRequest;
 import com.silver.content.model.request.AiGenerateRequest;
 import com.silver.content.model.response.AiChatResponse;
@@ -30,12 +30,12 @@ public class ContentQueryController {
     }
 
     @GetMapping("/hotspots/active")
-    public R<List<Hotspot>> activeHotspots() {
+    public R<List<HotspotEntity>> activeHotspots() {
         return R.success(contentFacadeService.activeHotspots());
     }
 
     @GetMapping("/categories")
-    public R<List<Category>> categories() {
+    public R<List<CategoryEntity>> categories() {
         return R.success(contentFacadeService.categories());
     }
 
@@ -48,7 +48,7 @@ public class ContentQueryController {
     }
 
     @GetMapping("/items/{contentId}")
-    public R<ContentItem> contentDetail(@PathVariable Long contentId) {
+    public R<ContentItemEntity> contentDetail(@PathVariable Long contentId) {
         return R.success(contentFacadeService.contentDetail(contentId));
     }
 

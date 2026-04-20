@@ -1,11 +1,17 @@
 package com.silver.content.model;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+
 /**
  * 内容分类实体。
  */
-public class Category {
+@TableName("category")
+public class CategoryEntity {
 
     /** 分类ID。 */
+    @TableId(type = IdType.AUTO)
     private Long id;
     /** 分类名称。 */
     private String name;
@@ -15,6 +21,8 @@ public class Category {
     private String coverUrl;
     /** 排序值。 */
     private int sort;
+    /** 分类状态。 */
+    private Integer status;
 
     public Long getId() {
         return id;
@@ -54,5 +62,13 @@ public class Category {
 
     public void setSort(int sort) {
         this.sort = sort;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 }

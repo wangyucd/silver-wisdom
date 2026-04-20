@@ -1,8 +1,8 @@
 package com.silver.content.service;
 
-import com.silver.content.model.Category;
-import com.silver.content.model.ContentItem;
-import com.silver.content.model.Hotspot;
+import com.silver.content.model.CategoryEntity;
+import com.silver.content.model.ContentItemEntity;
+import com.silver.content.model.HotspotEntity;
 import com.silver.content.model.request.AiChatRequest;
 import com.silver.content.model.request.AiGenerateRequest;
 import com.silver.content.model.request.CategoryUpsertRequest;
@@ -15,23 +15,23 @@ import java.util.List;
 
 public interface ContentFacadeService {
 
-    List<Hotspot> activeHotspots();
+    List<HotspotEntity> activeHotspots();
 
-    List<Hotspot> adminHotspots();
+    List<HotspotEntity> adminHotspots();
 
-    Hotspot saveHotspot(Long hotspotId, HotspotUpsertRequest request);
+    HotspotEntity saveHotspot(Long hotspotId, HotspotUpsertRequest request);
 
-    List<Category> categories();
+    List<CategoryEntity> categories();
 
-    Category saveCategory(Long categoryId, CategoryUpsertRequest request);
+    CategoryEntity saveCategory(Long categoryId, CategoryUpsertRequest request);
 
     ContentPageResponse contentPage(Long categoryId, String sortBy, int pageNum, int pageSize);
 
-    List<ContentItem> adminContents();
+    List<ContentItemEntity> adminContents();
 
-    ContentItem contentDetail(Long contentId);
+    ContentItemEntity contentDetail(Long contentId);
 
-    ContentItem saveContent(Long contentId, ContentUpsertRequest request);
+    ContentItemEntity saveContent(Long contentId, ContentUpsertRequest request);
 
     AiChatResponse chat(AiChatRequest request);
 

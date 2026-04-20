@@ -1,6 +1,6 @@
 package com.silver.content.model.response;
 
-import com.silver.content.model.AiGenerateResult;
+import com.silver.content.model.AiGenerateResultEntity;
 
 /**
  * AI 生成任务响应。
@@ -12,7 +12,7 @@ public class AiGenerateTaskResponse {
     /** 任务状态。 */
     private String status;
     /** 生成结果。 */
-    private AiGenerateResult result;
+    private AiGenerateResultEntity result;
     /** 失败原因。 */
     private String failReason;
 
@@ -32,11 +32,11 @@ public class AiGenerateTaskResponse {
         this.status = status;
     }
 
-    public AiGenerateResult getResult() {
+    public AiGenerateResultEntity getResult() {
         return result;
     }
 
-    public void setResult(AiGenerateResult result) {
+    public void setResult(AiGenerateResultEntity result) {
         this.result = result;
     }
 
