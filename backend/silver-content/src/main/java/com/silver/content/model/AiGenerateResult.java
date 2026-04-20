@@ -1,10 +1,17 @@
 package com.silver.content.model;
 
+/**
+ * AI 生成结果。
+ */
 public class AiGenerateResult {
 
+    /** 结果标题。 */
     private String title;
+    /** 结果摘要。 */
     private String summary;
+    /** 结果正文。 */
     private String body;
+    /** 结果大纲。 */
     private String outline;
 
     public String getTitle() {

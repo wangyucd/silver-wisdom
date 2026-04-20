@@ -2,6 +2,7 @@ package com.silver.user.service.impl;
 
 import com.silver.common.auth.StpMiniappUtil;
 import com.silver.common.exception.BusinessException;
+import com.silver.user.converter.UserResponseConverter;
 import com.silver.user.errorcode.UserErrorCodes;
 import com.silver.user.model.UserAccount;
 import com.silver.user.model.request.WxLoginRequest;
@@ -28,6 +29,10 @@ public class AuthServiceImpl implements AuthService {
      * 用户目录服务。
      */
     private final UserDirectory userDirectory;
+    /**
+     * 用户响应转换器。
+     */
+    private final UserResponseConverter userResponseConverter;
 
     /**
      * 构造小程序认证服务。
@@ -35,9 +40,12 @@ public class AuthServiceImpl implements AuthService {
      * @param wxOpenIdResolver 微信 openId 解析器
      * @param userDirectory 用户目录服务
      */
-    public AuthServiceImpl(WxOpenIdResolver wxOpenIdResolver, UserDirectory userDirectory) {
+    public AuthServiceImpl(WxOpenIdResolver wxOpenIdResolver,
+                           UserDirectory userDirectory,
+                           UserResponseConverter userResponseConverter) {
         this.wxOpenIdResolver = wxOpenIdResolver;
         this.userDirectory = userDirectory;
+        this.userResponseConverter = userResponseConverter;
     }
 
     /**
@@ -68,12 +76,12 @@ public class AuthServiceImpl implements AuthService {
         userDirectory.saveUser(userAccount);
 
         StpMiniappUtil.stpLogic().login(userAccount.getId());
-        LoginResponse response = new LoginResponse();
-        response.setToken(StpMiniappUtil.stpLogic().getTokenValue());
-        response.setUserId(userAccount.getId());
-        response.setNewUser(newUser);
-        response.setLoginType(StpMiniappUtil.LOGIN_TYPE);
-        return response;
+        return userResponseConverter.toLoginResponse(
+                userAccount,
+                StpMiniappUtil.stpLogic().getTokenValue(),
+                newUser,
+                StpMiniappUtil.LOGIN_TYPE
+        );
     }
 
     /**
@@ -101,14 +109,9 @@ public class AuthServiceImpl implements AuthService {
             throw new BusinessException(UserErrorCodes.USER_ACCOUNT_DISABLED);
         }
 
-        CurrentUserResponse response = new CurrentUserResponse();
-        response.setUserId(userAccount.getId());
-        response.setOpenId(userAccount.getOpenId());
-        response.setNickname(userAccount.getNickname());
-        response.setAvatarUrl(userAccount.getAvatarUrl());
-        response.setStatus(userAccount.getStatus());
-        response.setNewUser(userAccount.getCreatedAt() != null
-                && userAccount.getCreatedAt().plusMinutes(5).isAfter(LocalDateTime.now()));
-        return response;
+        return userResponseConverter.toCurrentUserResponse(
+                userAccount,
+                userAccount.getCreatedAt() != null && userAccount.getCreatedAt().plusMinutes(5).isAfter(LocalDateTime.now())
+        );
     }
 }

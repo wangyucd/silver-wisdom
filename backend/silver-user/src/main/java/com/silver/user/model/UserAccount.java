@@ -4,16 +4,28 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 小程序用户实体。
+ */
 public class UserAccount {
 
+    /** 用户主键。 */
     private Long id;
+    /** 微信 openId。 */
     private String openId;
+    /** 用户昵称。 */
     private String nickname;
+    /** 用户头像地址。 */
     private String avatarUrl;
+    /** 用户状态。 */
     private String status;
+    /** 最近登录时间。 */
     private LocalDateTime lastLoginTime;
+    /** 创建时间。 */
     private LocalDateTime createdAt;
+    /** 更新时间。 */
     private LocalDateTime updatedAt;
+    /** 兴趣标签列表。 */
     private final List<UserInterestTag> tags = new ArrayList<>();
 
     public Long getId() {

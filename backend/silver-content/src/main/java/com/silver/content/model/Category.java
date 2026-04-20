@@ -1,11 +1,19 @@
 package com.silver.content.model;
 
+/**
+ * 内容分类实体。
+ */
 public class Category {
 
+    /** 分类ID。 */
     private Long id;
+    /** 分类名称。 */
     private String name;
+    /** 分类图标地址。 */
     private String iconUrl;
+    /** 分类封面地址。 */
     private String coverUrl;
+    /** 排序值。 */
     private int sort;
 
     public Long getId() {

@@ -1,8 +1,13 @@
 package com.silver.user.model;
 
+/**
+ * 用户兴趣标签。
+ */
 public class UserInterestTag {
 
+    /** 标签名称。 */
     private String tag;
+    /** 标签权重。 */
     private double weight;
 
     public UserInterestTag() {

@@ -1,6 +1,7 @@
 package com.silver.content.service.impl;
 
 import com.silver.common.exception.BusinessException;
+import com.silver.content.converter.ContentResponseConverter;
 import com.silver.content.errorcode.ContentErrorCodes;
 import com.silver.content.model.AiGenerateResult;
 import com.silver.content.model.AiGenerateTask;
@@ -69,14 +70,20 @@ public class InMemoryContentFacadeService implements ContentFacadeService {
      * AI 网关服务。
      */
     private final AiGatewayService aiGatewayService;
+    /**
+     * 内容响应转换器。
+     */
+    private final ContentResponseConverter contentResponseConverter;
 
     /**
      * 构造内容门面服务。
      *
      * @param aiGatewayService AI 网关服务
      */
-    public InMemoryContentFacadeService(AiGatewayService aiGatewayService) {
+    public InMemoryContentFacadeService(AiGatewayService aiGatewayService,
+                                        ContentResponseConverter contentResponseConverter) {
         this.aiGatewayService = aiGatewayService;
+        this.contentResponseConverter = contentResponseConverter;
         seedData();
     }
 
@@ -281,7 +288,7 @@ public class InMemoryContentFacadeService implements ContentFacadeService {
         AiGatewayResult result = aiGatewayService.execute(context);
         AiChatResponse response = new AiChatResponse();
         response.setAnswer(result.getAnswer());
-        response.setReferences(referencedItems.stream().map(this::toReference).toList());
+        response.setReferences(referencedItems.stream().map(contentResponseConverter::toReferenceResponse).toList());
         return response;
     }
 
@@ -320,7 +327,7 @@ public class InMemoryContentFacadeService implements ContentFacadeService {
         task.setCreatedAt(LocalDateTime.now());
         generateTasks.put(taskId, task);
 
-        return toTaskResponse(task);
+        return contentResponseConverter.toTaskResponse(task);
     }
 
     /**
@@ -335,7 +342,7 @@ public class InMemoryContentFacadeService implements ContentFacadeService {
         if (task == null) {
             throw new BusinessException(ContentErrorCodes.AI_GENERATE_TASK_NOT_FOUND);
         }
-        return toTaskResponse(task);
+        return contentResponseConverter.toTaskResponse(task);
     }
 
     /**
@@ -352,35 +359,6 @@ public class InMemoryContentFacadeService implements ContentFacadeService {
                     .thenComparing(ContentItem::getPublishTime, Comparator.reverseOrder());
         }
         return Comparator.comparing(ContentItem::getPublishTime).reversed();
-    }
-
-    /**
-     * 转换引用响应。
-     *
-     * @param contentItem 内容信息
-     * @return 引用响应
-     */
-    private ReferenceResponse toReference(ContentItem contentItem) {
-        ReferenceResponse referenceResponse = new ReferenceResponse();
-        referenceResponse.setContentId(contentItem.getId());
-        referenceResponse.setTitle(contentItem.getTitle());
-        referenceResponse.setSnippet(contentItem.getSummary());
-        return referenceResponse;
-    }
-
-    /**
-     * 转换任务响应。
-     *
-     * @param task 任务信息
-     * @return 任务响应
-     */
-    private AiGenerateTaskResponse toTaskResponse(AiGenerateTask task) {
-        AiGenerateTaskResponse response = new AiGenerateTaskResponse();
-        response.setTaskId(task.getTaskId());
-        response.setStatus(task.getStatus());
-        response.setResult(task.getResult());
-        response.setFailReason(task.getFailReason());
-        return response;
     }
 
     /**

@@ -2,16 +2,28 @@ package com.silver.content.model.request;
 
 import java.util.List;
 
+/**
+ * 内容新增或更新请求。
+ */
 public class ContentUpsertRequest {
 
+    /** 内容标题。 */
     private String title;
+    /** 内容摘要。 */
     private String summary;
+    /** 封面图地址。 */
     private String coverUrl;
+    /** 内容类型。 */
     private String type;
+    /** 图文正文。 */
     private String contentBody;
+    /** 视频地址。 */
     private String videoUrl;
+    /** 分类ID。 */
     private Long categoryId;
+    /** 热度分值。 */
     private int heatScore;
+    /** 标签列表。 */
     private List<String> tags;
 
     public String getTitle() {

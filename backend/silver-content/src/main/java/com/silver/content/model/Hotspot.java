@@ -2,14 +2,24 @@ package com.silver.content.model;
 
 import java.time.LocalDateTime;
 
+/**
+ * 热点实体。
+ */
 public class Hotspot {
 
+    /** 热点ID。 */
     private Long id;
+    /** 热点标题。 */
     private String title;
+    /** 热点摘要。 */
     private String summary;
+    /** 热点封面。 */
     private String coverUrl;
+    /** 热点权重。 */
     private int weight;
+    /** 上线时间。 */
     private LocalDateTime startTime;
+    /** 下线时间。 */
     private LocalDateTime endTime;
 
     public Long getId() {

@@ -2,9 +2,14 @@ package com.silver.content.model.response;
 
 import java.util.List;
 
+/**
+ * AI 问答响应。
+ */
 public class AiChatResponse {
 
+    /** 回答内容。 */
     private String answer;
+    /** 引用列表。 */
     private List<ReferenceResponse> references;
 
     public String getAnswer() {

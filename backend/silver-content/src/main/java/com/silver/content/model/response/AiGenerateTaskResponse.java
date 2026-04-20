@@ -2,11 +2,18 @@ package com.silver.content.model.response;
 
 import com.silver.content.model.AiGenerateResult;
 
+/**
+ * AI 生成任务响应。
+ */
 public class AiGenerateTaskResponse {
 
+    /** 任务号。 */
     private String taskId;
+    /** 任务状态。 */
     private String status;
+    /** 生成结果。 */
     private AiGenerateResult result;
+    /** 失败原因。 */
     private String failReason;
 
     public String getTaskId() {

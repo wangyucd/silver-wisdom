@@ -1,10 +1,17 @@
 package com.silver.content.model.request;
 
+/**
+ * 热点新增或更新请求。
+ */
 public class HotspotUpsertRequest {
 
+    /** 热点标题。 */
     private String title;
+    /** 热点摘要。 */
     private String summary;
+    /** 封面图地址。 */
     private String coverUrl;
+    /** 热点权重。 */
     private int weight;
 
     public String getTitle() {

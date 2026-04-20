@@ -2,15 +2,26 @@ package com.silver.user.model;
 
 import java.time.LocalDateTime;
 
+/**
+ * 管理员账号实体。
+ */
 public class AdminAccount {
 
+    /** 管理员主键。 */
     private Long id;
+    /** 登录账号。 */
     private String username;
+    /** 密码哈希。 */
     private String passwordHash;
+    /** 展示名称。 */
     private String name;
+    /** 账号状态。 */
     private String status;
+    /** 最近登录时间。 */
     private LocalDateTime lastLoginTime;
+    /** 创建时间。 */
     private LocalDateTime createdAt;
+    /** 更新时间。 */
     private LocalDateTime updatedAt;
 
     public Long getId() {

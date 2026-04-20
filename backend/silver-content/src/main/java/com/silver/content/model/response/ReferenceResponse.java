@@ -1,9 +1,15 @@
 package com.silver.content.model.response;
 
+/**
+ * AI 问答引用响应。
+ */
 public class ReferenceResponse {
 
+    /** 内容ID。 */
     private Long contentId;
+    /** 内容标题。 */
     private String title;
+    /** 引用片段。 */
     private String snippet;
 
     public Long getContentId() {

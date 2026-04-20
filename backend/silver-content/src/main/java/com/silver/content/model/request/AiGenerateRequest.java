@@ -1,8 +1,13 @@
 package com.silver.content.model.request;
 
+/**
+ * AI 生成请求。
+ */
 public class AiGenerateRequest {
 
+    /** 生成提示词。 */
     private String prompt;
+    /** 生成场景。 */
     private String scene;
 
     public String getPrompt() {

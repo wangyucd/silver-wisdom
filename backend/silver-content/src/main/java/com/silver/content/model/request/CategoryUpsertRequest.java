@@ -1,10 +1,17 @@
 package com.silver.content.model.request;
 
+/**
+ * 分类新增或更新请求。
+ */
 public class CategoryUpsertRequest {
 
+    /** 分类名称。 */
     private String name;
+    /** 图标地址。 */
     private String iconUrl;
+    /** 封面地址。 */
     private String coverUrl;
+    /** 排序值。 */
     private int sort;
 
     public String getName() {

@@ -2,6 +2,7 @@ package com.silver.user.service.impl;
 
 import com.silver.common.auth.StpAdminUtil;
 import com.silver.common.exception.BusinessException;
+import com.silver.user.converter.UserResponseConverter;
 import com.silver.user.errorcode.UserErrorCodes;
 import com.silver.user.model.AdminAccount;
 import com.silver.user.model.request.AdminLoginRequest;
@@ -28,6 +29,10 @@ public class AdminAuthServiceImpl implements AdminAuthService {
      * 密码编码器。
      */
     private final BCryptPasswordEncoder passwordEncoder;
+    /**
+     * 用户响应转换器。
+     */
+    private final UserResponseConverter userResponseConverter;
 
     /**
      * 构造管理员认证服务。
@@ -35,9 +40,12 @@ public class AdminAuthServiceImpl implements AdminAuthService {
      * @param userDirectory 用户目录服务
      * @param passwordEncoder 密码编码器
      */
-    public AdminAuthServiceImpl(UserDirectory userDirectory, BCryptPasswordEncoder passwordEncoder) {
+    public AdminAuthServiceImpl(UserDirectory userDirectory,
+                                BCryptPasswordEncoder passwordEncoder,
+                                UserResponseConverter userResponseConverter) {
         this.userDirectory = userDirectory;
         this.passwordEncoder = passwordEncoder;
+        this.userResponseConverter = userResponseConverter;
     }
 
     /**
@@ -66,12 +74,11 @@ public class AdminAuthServiceImpl implements AdminAuthService {
         userDirectory.saveAdmin(adminAccount);
 
         StpAdminUtil.stpLogic().login(adminAccount.getId());
-        AdminLoginResponse response = new AdminLoginResponse();
-        response.setToken(StpAdminUtil.stpLogic().getTokenValue());
-        response.setAdminId(adminAccount.getId());
-        response.setName(adminAccount.getName());
-        response.setLoginType(StpAdminUtil.LOGIN_TYPE);
-        return response;
+        return userResponseConverter.toAdminLoginResponse(
+                adminAccount,
+                StpAdminUtil.stpLogic().getTokenValue(),
+                StpAdminUtil.LOGIN_TYPE
+        );
     }
 
     /**
@@ -95,12 +102,6 @@ public class AdminAuthServiceImpl implements AdminAuthService {
         AdminAccount adminAccount = userDirectory.getAdminById(adminId)
                 .orElseThrow(() -> new BusinessException(UserErrorCodes.ADMIN_NOT_FOUND));
 
-        AdminProfileResponse response = new AdminProfileResponse();
-        response.setAdminId(adminAccount.getId());
-        response.setUsername(adminAccount.getUsername());
-        response.setName(adminAccount.getName());
-        response.setStatus(adminAccount.getStatus());
-        response.setLoginType(StpAdminUtil.LOGIN_TYPE);
-        return response;
+        return userResponseConverter.toAdminProfileResponse(adminAccount, StpAdminUtil.LOGIN_TYPE);
     }
 }

@@ -3,6 +3,7 @@ package com.silver.user.service.impl;
 import com.silver.common.auth.StpAdminUtil;
 import com.silver.common.auth.StpMiniappUtil;
 import com.silver.common.exception.BusinessException;
+import com.silver.user.converter.UserResponseConverter;
 import com.silver.user.errorcode.UserErrorCodes;
 import com.silver.user.model.UserAccount;
 import com.silver.user.model.UserInterestTag;
@@ -34,14 +35,19 @@ public class MiniappUserServiceImpl implements MiniappUserService {
      * 用户目录服务。
      */
     private final UserDirectory userDirectory;
+    /**
+     * 用户响应转换器。
+     */
+    private final UserResponseConverter userResponseConverter;
 
     /**
      * 构造小程序用户服务。
      *
      * @param userDirectory 用户目录服务
      */
-    public MiniappUserServiceImpl(UserDirectory userDirectory) {
+    public MiniappUserServiceImpl(UserDirectory userDirectory, UserResponseConverter userResponseConverter) {
         this.userDirectory = userDirectory;
+        this.userResponseConverter = userResponseConverter;
     }
 
     /**
@@ -65,9 +71,7 @@ public class MiniappUserServiceImpl implements MiniappUserService {
         }
         userAccount.setUpdatedAt(LocalDateTime.now());
         userDirectory.saveUser(userAccount);
-        UserTagResponse response = new UserTagResponse();
-        response.setTags(userAccount.getTags());
-        return response;
+        return userResponseConverter.toUserTagResponse(userAccount.getTags());
     }
 
     /**
@@ -79,9 +83,7 @@ public class MiniappUserServiceImpl implements MiniappUserService {
     public UserTagResponse currentUserTags() {
         StpMiniappUtil.stpLogic().checkLogin();
         UserAccount userAccount = loadCurrentUser();
-        UserTagResponse response = new UserTagResponse();
-        response.setTags(userAccount.getTags());
-        return response;
+        return userResponseConverter.toUserTagResponse(userAccount.getTags());
     }
 
     /**
@@ -126,16 +128,7 @@ public class MiniappUserServiceImpl implements MiniappUserService {
         StpAdminUtil.stpLogic().checkLogin();
         UserAccount userAccount = userDirectory.getUserById(userId)
                 .orElseThrow(() -> new BusinessException(UserErrorCodes.USER_NOT_FOUND));
-        UserDetailResponse response = new UserDetailResponse();
-        response.setUserId(userAccount.getId());
-        response.setNickname(userAccount.getNickname());
-        response.setAvatarUrl(userAccount.getAvatarUrl());
-        response.setStatus(userAccount.getStatus());
-        response.setTagList(userAccount.getTags());
-        response.setLearningSummary(buildLearningSummary(userAccount.getId()));
-        response.setCreatedAt(userAccount.getCreatedAt());
-        response.setLastLoginTime(userAccount.getLastLoginTime());
-        return response;
+        return userResponseConverter.toUserDetailResponse(userAccount, buildLearningSummary(userAccount.getId()));
     }
 
     /**
@@ -213,17 +206,10 @@ public class MiniappUserServiceImpl implements MiniappUserService {
      * @return 列表项响应
      */
     private UserListItemResponse toUserListItem(UserAccount userAccount) {
-        UserListItemResponse item = new UserListItemResponse();
-        item.setUserId(userAccount.getId());
-        item.setNickname(userAccount.getNickname());
-        item.setStatus(userAccount.getStatus());
-        item.setTagSummary(userAccount.getTags().stream()
-                .limit(3)
-                .map(UserInterestTag::getTag)
-                .collect(Collectors.toList()));
-        item.setLastLoginTime(userAccount.getLastLoginTime());
-        item.setCreatedAt(userAccount.getCreatedAt());
-        return item;
+        return userResponseConverter.toUserListItemResponse(
+                userAccount,
+                userAccount.getTags().stream().limit(3).map(UserInterestTag::getTag).collect(Collectors.toList())
+        );
     }
 
     /**
