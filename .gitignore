@@ -1,0 +1,6 @@
+# Java / Maven build outputs
+**/target/
+*.class
+
+# macOS
+.DS_Store

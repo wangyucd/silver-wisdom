@@ -34,9 +34,11 @@ spring:
 
 sa-token:
   token-name: Authorization
+  token-prefix: Bearer
   timeout: 2592000
   is-concurrent: true
   is-share: true
+  jwt-secret-key: ${SA_TOKEN_JWT_SECRET:silver-wisdom-jwt-secret}
 
 management:
   endpoints:
