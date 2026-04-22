@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.silver.common.model.BaseEntity;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +13,7 @@ import java.util.List;
  * 内容实体。
  */
 @TableName("content_item")
-public class ContentItemEntity {
+public class ContentItemEntity extends BaseEntity {
 
     /** 内容ID。 */
     @TableId(type = IdType.AUTO)
@@ -37,8 +38,6 @@ public class ContentItemEntity {
     private LocalDateTime publishTime;
     /** 发布状态。 */
     private String publishStatus;
-    /** 创建管理员ID。 */
-    private Long createdBy;
     /** 标签列表。 */
     @TableField(exist = false)
     private final List<String> tags = new ArrayList<>();
@@ -129,14 +128,6 @@ public class ContentItemEntity {
 
     public void setPublishStatus(String publishStatus) {
         this.publishStatus = publishStatus;
-    }
-
-    public Long getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(Long createdBy) {
-        this.createdBy = createdBy;
     }
 
     public List<String> getTags() {

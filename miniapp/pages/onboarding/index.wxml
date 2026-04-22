@@ -1,0 +1,18 @@
+<view class="page-shell">
+  <view class="card onboard-card">
+    <text class="section-title">告诉我们你最关心什么</text>
+    <text class="section-subtitle">问卷结果会提交到 `/user/profile/onboarding`，用于首页内容推荐和画像标签展示。</text>
+    <view class="tag-grid">
+      <view
+        wx:for="{{tagOptions}}"
+        wx:key="*this"
+        class="select-tag {{selectedTagsMap[item] ? 'select-tag-active' : ''}}"
+        bindtap="toggleTag"
+        data-tag="{{item}}"
+      >
+        {{item}}
+      </view>
+    </view>
+    <button class="primary-btn" loading="{{submitting}}" bindtap="handleSubmit">完成问卷</button>
+  </view>
+</view>

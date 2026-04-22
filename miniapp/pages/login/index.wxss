@@ -1,0 +1,18 @@
+.login-shell {
+  display: flex;
+  align-items: center;
+}
+
+.login-card {
+  width: 100%;
+  padding: 44rpx 36rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 28rpx;
+}
+
+.hero-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 14rpx;
+}

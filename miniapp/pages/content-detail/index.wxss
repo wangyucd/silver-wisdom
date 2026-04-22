@@ -1,0 +1,24 @@
+.detail-card {
+  padding: 32rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 24rpx;
+}
+
+.pill-row {
+  display: flex;
+  gap: 16rpx;
+  flex-wrap: wrap;
+}
+
+.body-copy {
+  white-space: pre-wrap;
+  line-height: 1.8;
+  font-size: 28rpx;
+}
+
+.media-box {
+  background: #f8f0e1;
+  border-radius: 24rpx;
+  padding: 24rpx;
+}

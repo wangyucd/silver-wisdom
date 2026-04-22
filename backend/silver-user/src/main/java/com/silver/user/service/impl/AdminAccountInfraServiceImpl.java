@@ -1,6 +1,7 @@
 package com.silver.user.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.silver.user.enums.AccountStatusEnum;
 import com.silver.user.mapper.AdminAccountMapper;
 import com.silver.user.model.AdminAccountEntity;
 import com.silver.user.service.IAdminAccountInfraService;
@@ -16,6 +17,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class AdminAccountInfraServiceImpl extends ServiceImpl<AdminAccountMapper, AdminAccountEntity>
         implements IAdminAccountInfraService {
+
+    /**
+     * 系统审计主体
+     */
+    private static final String SYSTEM_AUDIT_ACTOR = "0｜系统";
 
     /**
      * 密码编码器。
@@ -75,9 +81,11 @@ public class AdminAccountInfraServiceImpl extends ServiceImpl<AdminAccountMapper
         admin.setUsername("admin");
         admin.setPasswordHash(passwordEncoder.encode("Admin@123"));
         admin.setName("系统管理员");
-        admin.setStatus("ENABLED");
-        admin.setCreatedAt(now.minusDays(7));
-        admin.setUpdatedAt(now.minusDays(7));
+        admin.setStatus(AccountStatusEnum.ENABLED.getCode());
+        admin.setCreator(SYSTEM_AUDIT_ACTOR);
+        admin.setModifier(SYSTEM_AUDIT_ACTOR);
+        admin.setCreated(now.minusDays(7));
+        admin.setModified(now.minusDays(7));
         admin.setLastLoginTime(now.minusHours(2));
         save(admin);
     }

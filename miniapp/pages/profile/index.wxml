@@ -1,0 +1,29 @@
+<view class="page-shell profile-shell">
+  <view class="card profile-card">
+    <text class="section-title">{{profile.nickname || '银发用户'}}</text>
+    <text class="section-subtitle">状态：{{profile.status || '--'}}</text>
+    <text class="section-subtitle">新用户：{{profile.newUser ? '是' : '否'}}</text>
+  </view>
+
+  <view class="card profile-card">
+    <view class="section-head">
+      <text class="section-title">兴趣标签</text>
+      <navigator class="secondary-btn mini-btn" url="/pages/onboarding/index">重新填写</navigator>
+    </view>
+    <view class="tag-wrap" wx:if="{{tags.length}}">
+      <text wx:for="{{tags}}" wx:key="tag" class="pill">{{item.tag}} · {{item.weight}}</text>
+    </view>
+    <view wx:else class="empty">暂无标签</view>
+  </view>
+
+  <view class="quick-actions">
+    <navigator class="card action-card" url="/pages/ai-assistant/index">
+      <text class="section-title">AI 助手</text>
+      <text class="section-subtitle">提问与生成内容</text>
+    </navigator>
+    <button class="card action-card action-button" bindtap="handleLogout">
+      <text class="section-title">退出登录</text>
+      <text class="section-subtitle">清空本地 token 并返回登录页</text>
+    </button>
+  </view>
+</view>

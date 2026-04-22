@@ -1,10 +1,14 @@
 package com.silver.user.model;
 
 import java.time.LocalDateTime;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * 用户学习概览。
  */
+@Getter
+@Setter
 public class UserLearningSummary {
 
     /** 已生成内容数量。 */
@@ -14,27 +18,4 @@ public class UserLearningSummary {
     /** 最近学习时间。 */
     private LocalDateTime lastLearnTime;
 
-    public int getGeneratedCount() {
-        return generatedCount;
-    }
-
-    public void setGeneratedCount(int generatedCount) {
-        this.generatedCount = generatedCount;
-    }
-
-    public int getContentViewCount() {
-        return contentViewCount;
-    }
-
-    public void setContentViewCount(int contentViewCount) {
-        this.contentViewCount = contentViewCount;
-    }
-
-    public LocalDateTime getLastLearnTime() {
-        return lastLearnTime;
-    }
-
-    public void setLastLearnTime(LocalDateTime lastLearnTime) {
-        this.lastLearnTime = lastLearnTime;
-    }
 }

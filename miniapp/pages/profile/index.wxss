@@ -1,0 +1,37 @@
+.profile-shell,
+.profile-card {
+  display: flex;
+  flex-direction: column;
+  gap: 24rpx;
+}
+
+.profile-card {
+  padding: 28rpx;
+}
+
+.mini-btn {
+  width: 170rpx;
+  height: 64rpx;
+  font-size: 24rpx;
+}
+
+.tag-wrap {
+  display: flex;
+  gap: 16rpx;
+  flex-wrap: wrap;
+}
+
+.quick-actions {
+  display: grid;
+  gap: 20rpx;
+}
+
+.action-card {
+  padding: 28rpx;
+}
+
+.action-button {
+  border: 0;
+  text-align: left;
+  background: rgba(255, 252, 246, 0.96);
+}

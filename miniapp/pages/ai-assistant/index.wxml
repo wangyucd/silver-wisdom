@@ -1,0 +1,44 @@
+<view class="page-shell assistant-shell">
+  <view class="card section-card">
+    <text class="section-title">提问或生成专属学习内容</text>
+    <text class="section-subtitle">问答调用 `/content/ai/chat`，生成任务调用 `/content/ai/generate`。</text>
+  </view>
+
+  <view class="card section-card">
+    <view class="field">
+      <text class="field-label">问题</text>
+      <textarea class="textarea" value="{{question}}" bindinput="handleQuestionInput" placeholder="比如：适合老年人的轻运动建议" />
+    </view>
+    <button class="primary-btn" loading="{{chatting}}" bindtap="handleChat">发送问题</button>
+    <view wx:if="{{chatAnswer}}" class="answer-box">
+      <text class="section-title">AI 回答</text>
+      <text class="body-copy">{{chatAnswer}}</text>
+      <view wx:if="{{references.length}}" class="ref-list">
+        <view wx:for="{{references}}" wx:key="contentId" class="ref-item">
+          <text>{{item.title}}</text>
+          <text class="section-subtitle">{{item.snippet}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="card section-card">
+    <view class="field">
+      <text class="field-label">生成提示词</text>
+      <textarea class="textarea" value="{{prompt}}" bindinput="handlePromptInput" placeholder="例如：帮我生成一份适合糖尿病老人的一周饮食计划" />
+    </view>
+    <view class="field">
+      <text class="field-label">生成场景</text>
+      <input class="input" value="{{scene}}" bindinput="handleSceneInput" placeholder="HEALTH_PLAN" />
+    </view>
+    <button class="primary-btn" loading="{{generating}}" bindtap="handleGenerate">开始生成</button>
+    <view wx:if="{{task.taskId}}" class="answer-box">
+      <text class="section-title">任务状态：{{task.status}}</text>
+      <text class="section-subtitle">任务号：{{task.taskId}}</text>
+      <text wx:if="{{task.failReason}}" class="section-subtitle">失败原因：{{task.failReason}}</text>
+      <view wx:if="{{task.result && task.result.contentBody}}">
+        <text class="body-copy">{{task.result.contentBody}}</text>
+      </view>
+    </view>
+  </view>
+</view>

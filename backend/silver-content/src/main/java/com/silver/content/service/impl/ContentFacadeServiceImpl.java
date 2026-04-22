@@ -44,6 +44,9 @@ import org.springframework.util.StringUtils;
 @Service
 public class ContentFacadeServiceImpl implements ContentFacadeService {
 
+    private static final String SYSTEM_ADMIN_ACTOR = "1｜系统管理员";
+    private static final String MINIAPP_USER_AUDIT_NAME = "小程序用户";
+
     private final IHotspotInfraService hotspotInfraService;
     private final ICategoryInfraService categoryInfraService;
     private final IContentItemInfraService contentItemInfraService;
@@ -98,8 +101,11 @@ public class ContentFacadeServiceImpl implements ContentFacadeService {
             hotspot.setStartTime(LocalDateTime.now().minusHours(1));
             hotspot.setEndTime(LocalDateTime.now().plusDays(7));
             hotspot.setStatus(1);
-            hotspot.setCreatedBy(resolveAdminId());
+            hotspot.setCreator(resolveAdminActor());
+            hotspot.setCreated(LocalDateTime.now());
         }
+        hotspot.setModifier(resolveAdminActor());
+        hotspot.setModified(LocalDateTime.now());
         hotspot.setTitle(request.getTitle());
         hotspot.setSummary(request.getSummary());
         hotspot.setCoverUrl(request.getCoverUrl());
@@ -125,7 +131,11 @@ public class ContentFacadeServiceImpl implements ContentFacadeService {
         }
         if (categoryId == null) {
             category.setStatus(1);
+            category.setCreator(resolveAdminActor());
+            category.setCreated(LocalDateTime.now());
         }
+        category.setModifier(resolveAdminActor());
+        category.setModified(LocalDateTime.now());
         category.setName(request.getName());
         category.setIconUrl(request.getIconUrl());
         category.setCoverUrl(request.getCoverUrl());
@@ -178,8 +188,11 @@ public class ContentFacadeServiceImpl implements ContentFacadeService {
         if (contentId == null) {
             contentItem.setPublishTime(LocalDateTime.now());
             contentItem.setPublishStatus("PUBLISHED");
-            contentItem.setCreatedBy(resolveAdminId());
+            contentItem.setCreator(resolveAdminActor());
+            contentItem.setCreated(LocalDateTime.now());
         }
+        contentItem.setModifier(resolveAdminActor());
+        contentItem.setModified(LocalDateTime.now());
         contentItem.setTitle(request.getTitle());
         contentItem.setSummary(request.getSummary());
         contentItem.setCoverUrl(request.getCoverUrl());
@@ -237,7 +250,10 @@ public class ContentFacadeServiceImpl implements ContentFacadeService {
         task.setPrompt(request.getPrompt());
         task.setScene(context.getScene());
         task.setStatus("SUCCESS");
-        task.setCreatedAt(LocalDateTime.now());
+        task.setCreator(resolveMiniappActor());
+        task.setCreated(LocalDateTime.now());
+        task.setModifier(resolveMiniappActor());
+        task.setModified(LocalDateTime.now());
         aiGenerateTaskInfraService.save(task);
 
         AiGenerateResultEntity generateResult = new AiGenerateResultEntity();
@@ -246,6 +262,10 @@ public class ContentFacadeServiceImpl implements ContentFacadeService {
         generateResult.setSummary(result.getSummary());
         generateResult.setOutline(result.getOutline());
         generateResult.setBody(String.join("\n\n", result.getParagraphs()));
+        generateResult.setCreator(resolveMiniappActor());
+        generateResult.setCreated(LocalDateTime.now());
+        generateResult.setModifier(resolveMiniappActor());
+        generateResult.setModified(LocalDateTime.now());
         aiGenerateResultMapper.insert(generateResult);
         task.setResult(generateResult);
         return contentResponseConverter.toTaskResponse(task);
@@ -270,6 +290,10 @@ public class ContentFacadeServiceImpl implements ContentFacadeService {
             ContentTagRelEntity rel = new ContentTagRelEntity();
             rel.setContentId(contentId);
             rel.setTag(tag.trim());
+            rel.setCreator(resolveAdminActor());
+            rel.setCreated(LocalDateTime.now());
+            rel.setModifier(resolveAdminActor());
+            rel.setModified(LocalDateTime.now());
             contentTagRelMapper.insert(rel);
         }
     }
@@ -280,6 +304,16 @@ public class ContentFacadeServiceImpl implements ContentFacadeService {
 
     private Long resolveMiniappUserId() {
         return StpMiniappUtil.stpLogic().isLogin() ? StpMiniappUtil.stpLogic().getLoginIdAsLong() : 10001L;
+    }
+
+    private String resolveAdminActor() {
+        return StpAdminUtil.stpLogic().isLogin()
+                ? StpAdminUtil.stpLogic().getLoginIdAsLong() + "｜管理员"
+                : SYSTEM_ADMIN_ACTOR;
+    }
+
+    private String resolveMiniappActor() {
+        return resolveMiniappUserId() + "｜" + MINIAPP_USER_AUDIT_NAME;
     }
 
     private void validateHotspotRequest(HotspotUpsertRequest request) {

@@ -3,12 +3,19 @@ package com.silver.user.model;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.silver.common.model.BaseEntity;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  * 用户兴趣标签。
  */
 @TableName("user_interest_tag")
-public class UserInterestTagEntity {
+@Getter
+@Setter
+@NoArgsConstructor
+public class UserInterestTagEntity extends BaseEntity {
 
     /** 主键ID。 */
     @TableId(type = IdType.AUTO)
@@ -22,51 +29,8 @@ public class UserInterestTagEntity {
     /** 标签来源。 */
     private String source;
 
-    public UserInterestTagEntity() {
-    }
-
     public UserInterestTagEntity(String tag, double weight) {
         this.tag = tag;
         this.weight = weight;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
-    public String getTag() {
-        return tag;
-    }
-
-    public void setTag(String tag) {
-        this.tag = tag;
-    }
-
-    public double getWeight() {
-        return weight;
-    }
-
-    public void setWeight(double weight) {
-        this.weight = weight;
-    }
-
-    public String getSource() {
-        return source;
-    }
-
-    public void setSource(String source) {
-        this.source = source;
     }
 }

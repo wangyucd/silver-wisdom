@@ -1,8 +1,13 @@
 package com.silver.user.model.response;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * 小程序登录响应。
  */
+@Getter
+@Setter
 public class LoginResponse {
 
     /** 访问令牌。 */
@@ -14,35 +19,4 @@ public class LoginResponse {
     /** 登录类型。 */
     private String loginType;
 
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
-    public boolean isNewUser() {
-        return newUser;
-    }
-
-    public void setNewUser(boolean newUser) {
-        this.newUser = newUser;
-    }
-
-    public String getLoginType() {
-        return loginType;
-    }
-
-    public void setLoginType(String loginType) {
-        this.loginType = loginType;
-    }
 }

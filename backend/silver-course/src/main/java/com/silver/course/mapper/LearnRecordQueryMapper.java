@@ -36,12 +36,12 @@ public interface LearnRecordQueryMapper {
             SELECT lr.biz_id AS taskId,
                    agr.title AS title,
                    agr.summary AS summary,
-                   lr.created_at AS createdAt
+                   lr.created AS createdAt
             FROM learn_record lr
             LEFT JOIN ai_generate_result agr ON agr.task_id = lr.biz_id
             WHERE lr.user_id = #{userId}
               AND lr.record_type = 'GENERATED'
-            ORDER BY lr.created_at DESC
+            ORDER BY lr.created DESC
             LIMIT #{offset}, #{pageSize}
             """)
     List<GeneratedLearnItem> selectGeneratedPage(@Param("userId") Long userId,

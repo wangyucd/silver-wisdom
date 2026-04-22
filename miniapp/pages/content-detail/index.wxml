@@ -1,0 +1,17 @@
+<view class="page-shell">
+  <view class="card detail-card" wx:if="{{detail.id}}">
+    <text class="section-title">{{detail.title}}</text>
+    <text class="section-subtitle">{{detail.summary}}</text>
+    <view class="pill-row">
+      <text class="pill">{{detail.type}}</text>
+      <text class="pill">热度 {{detail.heatScore}}</text>
+      <text class="pill">{{detail.publishStatus || 'PUBLISHED'}}</text>
+    </view>
+    <text class="body-copy">{{detail.contentBody || '当前内容暂无正文'}}</text>
+    <view wx:if="{{detail.videoUrl}}" class="media-box">
+      <text class="field-label">视频地址</text>
+      <text class="section-subtitle">{{detail.videoUrl}}</text>
+    </view>
+  </view>
+  <view wx:else class="empty">内容加载中...</view>
+</view>

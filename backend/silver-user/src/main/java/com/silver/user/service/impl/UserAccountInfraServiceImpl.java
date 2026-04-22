@@ -2,6 +2,8 @@ package com.silver.user.service.impl;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.silver.user.enums.AccountStatusEnum;
+import com.silver.user.enums.TagSourceEnum;
 import com.silver.user.mapper.UserAccountMapper;
 import com.silver.user.mapper.UserInterestTagMapper;
 import com.silver.user.model.UserAccountEntity;
@@ -21,6 +23,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserAccountInfraServiceImpl extends ServiceImpl<UserAccountMapper, UserAccountEntity>
         implements IUserAccountInfraService {
+
+    /**
+     * 系统审计主体
+     */
+    private static final String SYSTEM_AUDIT_ACTOR = "0｜系统";
 
     /**
      * 用户兴趣标签 Mapper。
@@ -69,9 +76,11 @@ public class UserAccountInfraServiceImpl extends ServiceImpl<UserAccountMapper, 
         userAccount.setOpenId(openId);
         userAccount.setNickname("银发用户");
         userAccount.setAvatarUrl("");
-        userAccount.setStatus("ENABLED");
-        userAccount.setCreatedAt(now);
-        userAccount.setUpdatedAt(now);
+        userAccount.setStatus(AccountStatusEnum.ENABLED.getCode());
+        userAccount.setCreator(SYSTEM_AUDIT_ACTOR);
+        userAccount.setModifier(SYSTEM_AUDIT_ACTOR);
+        userAccount.setCreated(now);
+        userAccount.setModified(now);
         userAccount.setLastLoginTime(now);
         save(userAccount);
         userAccount.setNickname("银发用户" + userAccount.getId());
@@ -119,11 +128,11 @@ public class UserAccountInfraServiceImpl extends ServiceImpl<UserAccountMapper, 
             return;
         }
         LocalDateTime now = LocalDateTime.now();
-        saveSeedUser("mock_seed_pet", "银发用户10001", now.minusDays(2), "ENABLED",
+        saveSeedUser("mock_seed_pet", "银发用户10001", now.minusDays(2), AccountStatusEnum.ENABLED,
                 List.of(new UserInterestTagEntity("宠物", 1.0), new UserInterestTagEntity("健康", 0.8)));
-        saveSeedUser("mock_seed_novel", "银发用户10002", now.minusDays(1), "ENABLED",
+        saveSeedUser("mock_seed_novel", "银发用户10002", now.minusDays(1), AccountStatusEnum.ENABLED,
                 List.of(new UserInterestTagEntity("小说", 1.0), new UserInterestTagEntity("二次元", 0.6)));
-        saveSeedUser("mock_seed_disabled", "银发用户10003", now.minusDays(3), "DISABLED",
+        saveSeedUser("mock_seed_disabled", "银发用户10003", now.minusDays(3), AccountStatusEnum.DISABLED,
                 List.of(new UserInterestTagEntity("养生", 1.0)));
     }
 
@@ -132,27 +141,33 @@ public class UserAccountInfraServiceImpl extends ServiceImpl<UserAccountMapper, 
      *
      * @param openId 微信 openId
      * @param nickname 用户昵称
-     * @param createdAt 创建时间
+     * @param created 创建时间
      * @param status 用户状态
      * @param tags 标签列表
      */
     private void saveSeedUser(String openId,
                               String nickname,
-                              LocalDateTime createdAt,
-                              String status,
+                              LocalDateTime created,
+                              AccountStatusEnum status,
                               List<UserInterestTagEntity> tags) {
         UserAccountEntity userAccount = new UserAccountEntity();
         userAccount.setOpenId(openId);
         userAccount.setNickname(nickname);
         userAccount.setAvatarUrl("");
-        userAccount.setStatus(status);
-        userAccount.setCreatedAt(createdAt);
-        userAccount.setUpdatedAt(createdAt);
-        userAccount.setLastLoginTime(createdAt.plusHours(6));
+        userAccount.setStatus(status.getCode());
+        userAccount.setCreator(SYSTEM_AUDIT_ACTOR);
+        userAccount.setModifier(SYSTEM_AUDIT_ACTOR);
+        userAccount.setCreated(created);
+        userAccount.setModified(created);
+        userAccount.setLastLoginTime(created.plusHours(6));
         save(userAccount);
         for (UserInterestTagEntity tag : tags) {
             tag.setUserId(userAccount.getId());
-            tag.setSource("QUESTIONNAIRE");
+            tag.setSource(TagSourceEnum.QUESTIONNAIRE.getCode());
+            tag.setCreator(SYSTEM_AUDIT_ACTOR);
+            tag.setModifier(SYSTEM_AUDIT_ACTOR);
+            tag.setCreated(created);
+            tag.setModified(created);
             userInterestTagMapper.insert(tag);
         }
     }

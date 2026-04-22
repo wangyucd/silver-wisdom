@@ -93,7 +93,7 @@ public interface UserResponseConverter {
     @Mapping(target = "status", source = "userAccount.status")
     @Mapping(target = "tagList", source = "userAccount.tags")
     @Mapping(target = "learningSummary", source = "learningSummary")
-    @Mapping(target = "createdAt", source = "userAccount.createdAt")
+    @Mapping(target = "createdAt", source = "userAccount.created")
     @Mapping(target = "lastLoginTime", source = "userAccount.lastLoginTime")
     UserDetailResponse toUserDetailResponse(UserAccountEntity userAccount, UserLearningSummary learningSummary);
 
@@ -109,7 +109,7 @@ public interface UserResponseConverter {
     @Mapping(target = "status", source = "userAccount.status")
     @Mapping(target = "tagSummary", source = "tagSummary")
     @Mapping(target = "lastLoginTime", source = "userAccount.lastLoginTime")
-    @Mapping(target = "createdAt", source = "userAccount.createdAt")
+    @Mapping(target = "createdAt", source = "userAccount.created")
     UserListItemResponse toUserListItemResponse(UserAccountEntity userAccount, List<String> tagSummary);
 
     /**

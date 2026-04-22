@@ -1,0 +1,18 @@
+<view class="page-shell">
+  <view class="card section-card">
+    <view class="section-head">
+      <text class="section-title">我的 AI 生成学习内容</text>
+      <text class="section-subtitle">来自 `/course/learn/generated`</text>
+    </view>
+    <view wx:if="{{records.length}}">
+      <view wx:for="{{records}}" wx:key="taskId" class="record-item">
+        <view>
+          <text class="content-title">{{item.title}}</text>
+          <text class="section-subtitle">{{item.summary}}</text>
+        </view>
+        <text class="meta-text">{{item.createdAtText}}</text>
+      </view>
+    </view>
+    <view wx:else class="empty">暂无生成记录，先去 AI 助手发起一次生成吧。</view>
+  </view>
+</view>

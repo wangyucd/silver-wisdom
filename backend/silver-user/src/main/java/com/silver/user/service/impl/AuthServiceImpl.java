@@ -4,6 +4,7 @@ import com.silver.common.auth.StpMiniappUtil;
 import com.silver.common.exception.BusinessException;
 import com.silver.user.converter.UserResponseConverter;
 import com.silver.user.errorcode.UserErrorCodes;
+import com.silver.user.enums.AccountStatusEnum;
 import com.silver.user.model.UserAccountEntity;
 import com.silver.user.model.request.WxLoginRequest;
 import com.silver.user.model.response.CurrentUserResponse;
@@ -22,6 +23,11 @@ import org.springframework.util.StringUtils;
 public class AuthServiceImpl implements AuthService {
 
     /**
+     * 审计主体名称
+     */
+    private static final String MINIAPP_USER_AUDIT_NAME = "小程序用户";
+
+    /**
      * 微信 openId 解析器。
      */
     private final WxOpenIdResolver wxOpenIdResolver;
@@ -38,7 +44,8 @@ public class AuthServiceImpl implements AuthService {
      * 构造小程序认证服务。
      *
      * @param wxOpenIdResolver 微信 openId 解析器
-     * @param userDirectory 用户目录服务
+     * @param userAccountInfraService 用户账号基础服务
+     * @param userResponseConverter 用户响应转换器
      */
     public AuthServiceImpl(WxOpenIdResolver wxOpenIdResolver,
                            IUserAccountInfraService userAccountInfraService,
@@ -67,12 +74,13 @@ public class AuthServiceImpl implements AuthService {
             userAccount = userAccountInfraService.createMiniappUser(openId);
             newUser = true;
         }
-        if (!"ENABLED".equals(userAccount.getStatus())) {
+        if (!AccountStatusEnum.ENABLED.matches(userAccount.getStatus())) {
             throw new BusinessException(UserErrorCodes.USER_ACCOUNT_DISABLED);
         }
 
         userAccount.setLastLoginTime(LocalDateTime.now());
-        userAccount.setUpdatedAt(LocalDateTime.now());
+        userAccount.setModifier(buildAuditActor(userAccount.getId(), userAccount.getNickname(), MINIAPP_USER_AUDIT_NAME));
+        userAccount.setModified(LocalDateTime.now());
         userAccountInfraService.updateById(userAccount);
 
         StpMiniappUtil.stpLogic().login(userAccount.getId());
@@ -105,13 +113,26 @@ public class AuthServiceImpl implements AuthService {
         long userId = StpMiniappUtil.stpLogic().getLoginIdAsLong();
         UserAccountEntity userAccount = userAccountInfraService.findByUserId(userId)
                 .orElseThrow(() -> new BusinessException(UserErrorCodes.CURRENT_USER_NOT_FOUND));
-        if (!"ENABLED".equals(userAccount.getStatus())) {
+        if (!AccountStatusEnum.ENABLED.matches(userAccount.getStatus())) {
             throw new BusinessException(UserErrorCodes.USER_ACCOUNT_DISABLED);
         }
 
         return userResponseConverter.toCurrentUserResponse(
                 userAccount,
-                userAccount.getCreatedAt() != null && userAccount.getCreatedAt().plusMinutes(5).isAfter(LocalDateTime.now())
+                userAccount.getCreated() != null && userAccount.getCreated().plusMinutes(5).isAfter(LocalDateTime.now())
         );
+    }
+
+    /**
+     * 构造审计主体
+     *
+     * @param id 主体ID
+     * @param displayName 展示名称
+     * @param defaultName 默认名称
+     * @return 审计主体
+     */
+    private String buildAuditActor(Long id, String displayName, String defaultName) {
+        String resolvedName = StringUtils.hasText(displayName) ? displayName.trim() : defaultName;
+        return id + "｜" + resolvedName;
     }
 }

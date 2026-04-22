@@ -1,0 +1,13 @@
+<view class="page-shell login-shell">
+  <view class="card login-card">
+    <view class="hero-copy">
+      <text class="section-title">银发智慧</text>
+      <text class="section-subtitle">先完成登录，再进入兴趣问卷、内容浏览和 AI 助手。</text>
+    </view>
+    <view class="field">
+      <text class="field-label">调试 code</text>
+      <input class="input" value="{{code}}" placeholder="开发联调时可手动输入 code" bindinput="handleCodeInput" />
+    </view>
+    <button class="primary-btn" loading="{{submitting}}" bindtap="handleLogin">微信登录</button>
+  </view>
+</view>

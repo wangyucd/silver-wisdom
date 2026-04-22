@@ -5,6 +5,7 @@ import com.silver.common.auth.StpMiniappUtil;
 import com.silver.common.exception.BusinessException;
 import com.silver.user.converter.UserResponseConverter;
 import com.silver.user.errorcode.UserErrorCodes;
+import com.silver.user.enums.AccountStatusEnum;
 import com.silver.user.model.UserAccountEntity;
 import com.silver.user.model.UserInterestTagEntity;
 import com.silver.user.model.UserLearningSummary;
@@ -32,6 +33,15 @@ import org.springframework.util.StringUtils;
 public class MiniappUserServiceImpl implements MiniappUserService {
 
     /**
+     * 管理员审计主体名称
+     */
+    private static final String ADMIN_AUDIT_NAME = "管理员";
+    /**
+     * 小程序用户审计主体名称
+     */
+    private static final String MINIAPP_USER_AUDIT_NAME = "小程序用户";
+
+    /**
      * 用户目录服务。
      */
     private final IUserAccountInfraService userAccountInfraService;
@@ -43,7 +53,8 @@ public class MiniappUserServiceImpl implements MiniappUserService {
     /**
      * 构造小程序用户服务。
      *
-     * @param userDirectory 用户目录服务
+     * @param userAccountInfraService 用户账号基础服务
+     * @param userResponseConverter 用户响应转换器
      */
     public MiniappUserServiceImpl(IUserAccountInfraService userAccountInfraService,
                                   UserResponseConverter userResponseConverter) {
@@ -70,7 +81,8 @@ public class MiniappUserServiceImpl implements MiniappUserService {
                 userAccount.getTags().add(new UserInterestTagEntity(currentTag.trim(), 1.0));
             }
         }
-        userAccount.setUpdatedAt(LocalDateTime.now());
+        userAccount.setModifier(buildAuditActor(userAccount.getId(), userAccount.getNickname(), MINIAPP_USER_AUDIT_NAME));
+        userAccount.setModified(LocalDateTime.now());
         userAccountInfraService.updateById(userAccount);
         return userResponseConverter.toUserTagResponse(userAccount.getTags());
     }
@@ -105,7 +117,7 @@ public class MiniappUserServiceImpl implements MiniappUserService {
         List<UserListItemResponse> items = userAccountInfraService.listUsersWithTags().stream()
                 .filter(user -> matchKeyword(user, keyword))
                 .filter(user -> matchStatus(user, status))
-                .sorted(Comparator.comparing(UserAccountEntity::getCreatedAt).reversed())
+                .sorted(Comparator.comparing(UserAccountEntity::getCreated).reversed())
                 .map(this::toUserListItem)
                 .toList();
 
@@ -144,14 +156,13 @@ public class MiniappUserServiceImpl implements MiniappUserService {
         if (request == null || !StringUtils.hasText(request.getStatus())) {
             throw new BusinessException(UserErrorCodes.USER_STATUS_REQUIRED);
         }
-        String status = request.getStatus().trim().toUpperCase(Locale.ROOT);
-        if (!"ENABLED".equals(status) && !"DISABLED".equals(status)) {
-            throw new BusinessException(UserErrorCodes.USER_STATUS_INVALID);
-        }
+        AccountStatusEnum status = AccountStatusEnum.fromCode(request.getStatus())
+                .orElseThrow(() -> new BusinessException(UserErrorCodes.USER_STATUS_INVALID));
         UserAccountEntity userAccount = userAccountInfraService.findByUserId(userId)
                 .orElseThrow(() -> new BusinessException(UserErrorCodes.USER_NOT_FOUND));
-        userAccount.setStatus(status);
-        userAccount.setUpdatedAt(LocalDateTime.now());
+        userAccount.setStatus(status.getCode());
+        userAccount.setModifier(buildAuditActor(StpAdminUtil.stpLogic().getLoginIdAsLong(), null, ADMIN_AUDIT_NAME));
+        userAccount.setModified(LocalDateTime.now());
         userAccountInfraService.updateById(userAccount);
     }
 
@@ -164,7 +175,7 @@ public class MiniappUserServiceImpl implements MiniappUserService {
         long userId = StpMiniappUtil.stpLogic().getLoginIdAsLong();
         UserAccountEntity userAccount = userAccountInfraService.findByUserId(userId)
                 .orElseThrow(() -> new BusinessException(UserErrorCodes.USER_NOT_FOUND));
-        if (!"ENABLED".equals(userAccount.getStatus())) {
+        if (!AccountStatusEnum.ENABLED.matches(userAccount.getStatus())) {
             throw new BusinessException(UserErrorCodes.USER_ACCOUNT_DISABLED);
         }
         return userAccount;
@@ -197,7 +208,9 @@ public class MiniappUserServiceImpl implements MiniappUserService {
         if (!StringUtils.hasText(status)) {
             return true;
         }
-        return status.trim().equalsIgnoreCase(userAccount.getStatus());
+        return AccountStatusEnum.fromCode(status)
+                .map(item -> item.matches(userAccount.getStatus()))
+                .orElse(false);
     }
 
     /**
@@ -211,6 +224,19 @@ public class MiniappUserServiceImpl implements MiniappUserService {
                 userAccount,
                 userAccount.getTags().stream().limit(3).map(UserInterestTagEntity::getTag).collect(Collectors.toList())
         );
+    }
+
+    /**
+     * 构造审计主体
+     *
+     * @param id 主体ID
+     * @param displayName 展示名称
+     * @param defaultName 默认名称
+     * @return 审计主体
+     */
+    private String buildAuditActor(Long id, String displayName, String defaultName) {
+        String resolvedName = StringUtils.hasText(displayName) ? displayName.trim() : defaultName;
+        return id + "｜" + resolvedName;
     }
 
     /**

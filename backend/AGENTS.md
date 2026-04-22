@@ -33,10 +33,17 @@
 
 ## 4. 注释与对象规范
 - 所有新建或修改的 Java 类、接口、枚举、方法，定义上方都必须补充规范 JavaDoc。
+- Java 类、接口、枚举的类型级 JavaDoc，除职责说明外，应补充 `@author`、`@since`；推荐格式如下：`/** ... * @author xxx * @since yyyy/MM/dd HH:mm */`。
 - 方法 JavaDoc 至少说明用途；有入参写 `@param`，有返回值写 `@return`，有异常写 `@throws`。
+- 修改方法签名、构造器参数、字段命名或对象职责时，必须同步更新对应注释与 JavaDoc；禁止出现注释仍引用旧参数名、旧字段名，或 `@param xxx xxx` 这类直接复写英文变量名的占位式说明。
 - 禁止空洞注释，如“方法说明”“TODO”“处理逻辑”等占位内容。
+- 枚举项、常量、字段等成员注释，不使用单行行内形式 `/** xxx */`，统一使用多行 JavaDoc 形式。
+- 枚举项、常量、字段等中文注释正文结尾默认不加句号，保持简洁一致，例如 `/** 管理员登录参数缺失 */`。
 - `entity`、`pojo`、`dto`、`request`、`response`、`query`、`command` 等数据对象字段上方必须补充中文注释，准确描述业务含义。
-- `entity`、`dto`、`request`、`response`、`query`、`command` 等常规数据对象，优先使用 `Lombok` 注解简化样板代码；非必要不要手写大段重复 `get/set`、构造方法。
+- `entity`、`pojo`、`dto`、`request`、`response`、`query`、`command` 等常规数据对象，默认优先使用 `Lombok` 注解简化样板代码；非必要不要手写大段重复 `get/set`、构造方法。
+- 新建或修改 `entity`、`pojo` 类时，如仅包含属性、少量构造方法或简单辅助方法，应优先改造为 `Lombok` 形式，不保留成批手写访问器。
+- 多个实体共用的审计字段，如 `creator`、`created`、`modifier`、`modified`，应优先抽取到 `silver-common` 的公共基类中复用，业务实体通过继承方式复用公共字段。
+- 状态、类型、来源、分类、业务标记等固定范围字段，必须优先定义领域枚举表达语义；业务代码使用枚举判断和赋值，避免直接散落 `ENABLED`、`DISABLED`、`QUESTIONNAIRE` 这类魔法字符串。
 - `VO` 不是默认通用命名；仅在明确表达展示聚合对象时使用，普通接口返回对象优先命名为 `XxxResponse`。
 - 状态、枚举、布尔、时间、ID 等字段需明确取值语义或用途。
 

@@ -3,12 +3,13 @@ package com.silver.content.model;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.silver.common.model.BaseEntity;
 
 /**
  * 内容分类实体。
  */
 @TableName("category")
-public class CategoryEntity {
+public class CategoryEntity extends BaseEntity {
 
     /** 分类ID。 */
     @TableId(type = IdType.AUTO)

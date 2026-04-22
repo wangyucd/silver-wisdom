@@ -1,0 +1,61 @@
+<view class="page-shell home-shell">
+  <view class="card banner-card">
+    <text class="section-title">今日推荐</text>
+    <text class="section-subtitle">热点、分类和内容列表都来自后端公共查询接口。</text>
+  </view>
+
+  <view class="scroll-tags">
+    <view
+      class="pill {{activeCategoryId === 0 ? 'pill-active' : ''}}"
+      bindtap="handleCategoryChange"
+      data-id="0"
+    >
+      全部
+    </view>
+    <view
+      wx:for="{{categories}}"
+      wx:key="id"
+      class="pill {{activeCategoryId === item.id ? 'pill-active' : ''}}"
+      bindtap="handleCategoryChange"
+      data-id="{{item.id}}"
+    >
+      {{item.name}}
+    </view>
+  </view>
+
+  <view class="card section-card">
+    <view class="section-head">
+      <text class="section-title">热点播报</text>
+    </view>
+    <view wx:if="{{hotspots.length}}">
+      <view wx:for="{{hotspots}}" wx:key="id" class="hotspot-item">
+        <text class="hotspot-title">{{item.title}}</text>
+        <text class="section-subtitle">{{item.summary}}</text>
+      </view>
+    </view>
+    <view wx:else class="empty">暂无热点</view>
+  </view>
+
+  <view class="card section-card">
+    <view class="section-head">
+      <text class="section-title">内容列表</text>
+      <navigator class="secondary-btn assistant-link" url="/pages/ai-assistant/index">AI 助手</navigator>
+    </view>
+    <view wx:if="{{contents.length}}">
+      <navigator
+        wx:for="{{contents}}"
+        wx:key="id"
+        class="content-item"
+        url="/pages/content-detail/index?contentId={{item.id}}"
+      >
+        <view>
+          <text class="content-title">{{item.title}}</text>
+          <text class="section-subtitle">{{item.summary}}</text>
+          <text class="meta-text">标签：{{item.tagText}}</text>
+        </view>
+        <text class="heat-score">热度 {{item.heatScore}}</text>
+      </navigator>
+    </view>
+    <view wx:else class="empty">当前分类还没有内容</view>
+  </view>
+</view>

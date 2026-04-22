@@ -1,0 +1,28 @@
+.assistant-shell {
+  display: flex;
+  flex-direction: column;
+  gap: 24rpx;
+}
+
+.section-card {
+  padding: 28rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 22rpx;
+}
+
+.answer-box {
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+  padding: 24rpx;
+  border-radius: 24rpx;
+  background: #f8f0e1;
+}
+
+.ref-list,
+.ref-item {
+  display: flex;
+  flex-direction: column;
+  gap: 10rpx;
+}

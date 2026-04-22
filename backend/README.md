@@ -17,6 +17,3 @@ mvn -pl silver-user spring-boot:run
 mvn -pl silver-content spring-boot:run
 mvn -pl silver-course spring-boot:run
 ```
-
-默认关闭 Nacos 注册与配置：`NACOS_ENABLED=false`。
-连接 Nacos 时请设置：`NACOS_ENABLED=true`、`NACOS_ADDR=ip:8848`。

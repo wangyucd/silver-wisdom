@@ -3,13 +3,14 @@ package com.silver.course.model;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.silver.common.model.BaseEntity;
 import java.time.LocalDateTime;
 
 /**
  * 学习记录实体。
  */
 @TableName("learn_record")
-public class LearnRecordEntity {
+public class LearnRecordEntity extends BaseEntity {
 
     /** 主键ID。 */
     @TableId(type = IdType.AUTO)
@@ -24,10 +25,6 @@ public class LearnRecordEntity {
     private Integer progress;
     /** 最近查看时间。 */
     private LocalDateTime lastViewTime;
-    /** 创建时间。 */
-    private LocalDateTime createdAt;
-    /** 更新时间。 */
-    private LocalDateTime updatedAt;
 
     public Long getId() {
         return id;
@@ -77,19 +74,4 @@ public class LearnRecordEntity {
         this.lastViewTime = lastViewTime;
     }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
-    }
 }

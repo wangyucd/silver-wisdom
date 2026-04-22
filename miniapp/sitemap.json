@@ -1,0 +1,9 @@
+{
+  "desc": "silver wisdom sitemap",
+  "rules": [
+    {
+      "action": "allow",
+      "page": "*"
+    }
+  ]
+}

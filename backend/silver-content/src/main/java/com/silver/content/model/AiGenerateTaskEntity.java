@@ -4,13 +4,13 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import java.time.LocalDateTime;
+import com.silver.common.model.BaseEntity;
 
 /**
  * AI 生成任务。
  */
 @TableName("ai_generate_task")
-public class AiGenerateTaskEntity {
+public class AiGenerateTaskEntity extends BaseEntity {
 
     /** 主键ID。 */
     @TableId(type = IdType.AUTO)
@@ -30,8 +30,6 @@ public class AiGenerateTaskEntity {
     /** 生成结果。 */
     @TableField(exist = false)
     private AiGenerateResultEntity result;
-    /** 创建时间。 */
-    private LocalDateTime createdAt;
 
     public String getTaskId() {
         return taskId;
@@ -97,11 +95,4 @@ public class AiGenerateTaskEntity {
         this.result = result;
     }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
 }

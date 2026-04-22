@@ -3,12 +3,13 @@ package com.silver.content.model;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.silver.common.model.BaseEntity;
 
 /**
  * AI 生成结果。
  */
 @TableName("ai_generate_result")
-public class AiGenerateResultEntity {
+public class AiGenerateResultEntity extends BaseEntity {
 
     /** 主键ID。 */
     @TableId(type = IdType.AUTO)

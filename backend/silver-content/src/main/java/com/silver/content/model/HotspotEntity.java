@@ -3,6 +3,7 @@ package com.silver.content.model;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.silver.common.model.BaseEntity;
 import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,7 +16,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class HotspotEntity {
+public class HotspotEntity extends BaseEntity {
 
     /** 热点ID。 */
     @TableId(type = IdType.AUTO)
@@ -34,7 +35,4 @@ public class HotspotEntity {
     private LocalDateTime endTime;
     /** 热点状态。 */
     private Integer status;
-    /** 创建管理员ID。 */
-    private Long createdBy;
-
 }

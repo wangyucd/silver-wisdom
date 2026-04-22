@@ -1,0 +1,25 @@
+.onboard-card {
+  padding: 32rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 24rpx;
+}
+
+.tag-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18rpx;
+}
+
+.select-tag {
+  padding: 20rpx 24rpx;
+  border-radius: 22rpx;
+  background: #f4ead9;
+  color: #87511f;
+  font-size: 28rpx;
+}
+
+.select-tag-active {
+  background: linear-gradient(135deg, #d98f3c, #b86a2b);
+  color: #fffaf2;
+}
