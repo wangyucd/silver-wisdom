@@ -6,14 +6,21 @@ import lombok.Setter;
 
 /**
  * 用户分页响应。
+ *
+ * @author wangyu03
+ * @since 2026/04/27 10:00
  */
 @Getter
 @Setter
 public class UserPageResponse {
 
-    /** 总记录数。 */
+    /**
+     * 总记录数
+     */
     private long total;
-    /** 当前页数据。 */
+    /**
+     * 当前页数据
+     */
     private List<UserListItemResponse> list;
 
 }

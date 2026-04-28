@@ -5,14 +5,21 @@ import lombok.Setter;
 
 /**
  * 用户状态更新请求。
+ *
+ * @author wangyu03
+ * @since 2026/04/27 10:00
  */
 @Getter
 @Setter
 public class UpdateUserStatusRequest {
 
-    /** 目标状态。 */
+    /**
+     * 目标状态
+     */
     private String status;
-    /** 状态变更原因。 */
+    /**
+     * 状态变更原因
+     */
     private String reason;
 
 }

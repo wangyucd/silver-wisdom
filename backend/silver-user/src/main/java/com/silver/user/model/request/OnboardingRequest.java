@@ -6,14 +6,21 @@ import lombok.Setter;
 
 /**
  * 新用户兴趣问卷请求。
+ *
+ * @author wangyu03
+ * @since 2026/04/27 10:00
  */
 @Getter
 @Setter
 public class OnboardingRequest {
 
-    /** 用户选择的标签列表。 */
+    /**
+     * 用户选择的标签列表
+     */
     private List<String> tags;
-    /** 标签来源。 */
+    /**
+     * 标签来源
+     */
     private String source;
 
 }

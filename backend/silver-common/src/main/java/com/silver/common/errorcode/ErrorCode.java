@@ -1,7 +1,11 @@
 package com.silver.common.errorcode;
 
 /**
- * 错误码抽象。
+ * 错误码抽象接口。
+ * 定义错误码枚举的标准契约，包括错误码值和默认错误信息。
+ *
+ * @author wangyu03
+ * @since 2026/04/27 10:00
  */
 public interface ErrorCode {
 

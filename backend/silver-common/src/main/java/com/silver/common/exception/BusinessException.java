@@ -4,6 +4,10 @@ import com.silver.common.errorcode.ErrorCode;
 
 /**
  * 业务异常。
+ * 用于封装业务层可预期的异常场景。
+ *
+ * @author wangyu03
+ * @since 2026/04/27 10:00
  */
 public class BusinessException extends RuntimeException {
 

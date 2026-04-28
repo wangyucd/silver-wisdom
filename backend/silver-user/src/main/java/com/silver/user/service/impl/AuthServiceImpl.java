@@ -18,6 +18,10 @@ import org.springframework.util.StringUtils;
 
 /**
  * 小程序认证服务实现。
+ * 提供微信小程序登录、登出及当前用户信息查询能力。
+ *
+ * @author wangyu03
+ * @since 2026/04/27 10:00
  */
 @Service
 public class AuthServiceImpl implements AuthService {

@@ -4,12 +4,19 @@ import java.util.List;
 
 /**
  * AI 问答响应。
+ *
+ * @author wangyu03
+ * @since 2026/04/27 10:00
  */
 public class AiChatResponse {
 
-    /** 回答内容。 */
+    /**
+     * 回答内容
+     */
     private String answer;
-    /** 引用列表。 */
+    /**
+     * 引用列表
+     */
     private List<ReferenceResponse> references;
 
     public String getAnswer() {

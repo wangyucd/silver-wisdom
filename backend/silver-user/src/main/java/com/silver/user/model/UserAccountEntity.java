@@ -13,28 +13,45 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * 小程序用户实体。
+ * 小程序用户账号实体。
+ *
+ * @author wangyu03
+ * @since 2026/04/27 10:00
  */
 @TableName("user_account")
 @Getter
 @Setter
 public class UserAccountEntity extends BaseEntity {
 
-    /** 用户主键。 */
+    /**
+     * 用户主键
+     */
     @TableId(type = IdType.AUTO)
     private Long id;
-    /** 微信 openId。 */
+    /**
+     * 微信 openId
+     */
     @TableField("wx_openid")
     private String openId;
-    /** 用户昵称。 */
+    /**
+     * 用户昵称
+     */
     private String nickname;
-    /** 用户头像地址。 */
+    /**
+     * 用户头像地址
+     */
     private String avatarUrl;
-    /** 用户状态。 */
+    /**
+     * 用户状态
+     */
     private String status;
-    /** 最近登录时间。 */
+    /**
+     * 最近登录时间
+     */
     private LocalDateTime lastLoginTime;
-    /** 兴趣标签列表。 */
+    /**
+     * 兴趣标签列表
+     */
     @TableField(exist = false)
     @Setter(AccessLevel.NONE)
     private final List<UserInterestTagEntity> tags = new ArrayList<>();

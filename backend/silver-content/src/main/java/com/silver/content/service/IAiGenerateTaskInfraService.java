@@ -6,6 +6,10 @@ import java.util.Optional;
 
 /**
  * AI 生成任务基础数据访问接口。
+ * 提供生成任务的基础 CRUD 及结果关联查询能力。
+ *
+ * @author wangyu03
+ * @since 2026/04/27 10:00
  */
 public interface IAiGenerateTaskInfraService extends IService<AiGenerateTaskEntity> {
 

@@ -6,16 +6,25 @@ import lombok.Setter;
 
 /**
  * 用户学习概览。
+ *
+ * @author wangyu03
+ * @since 2026/04/27 10:00
  */
 @Getter
 @Setter
 public class UserLearningSummary {
 
-    /** 已生成内容数量。 */
+    /**
+     * 已生成内容数量
+     */
     private int generatedCount;
-    /** 内容查看次数。 */
+    /**
+     * 内容查看次数
+     */
     private int contentViewCount;
-    /** 最近学习时间。 */
+    /**
+     * 最近学习时间
+     */
     private LocalDateTime lastLearnTime;
 
 }

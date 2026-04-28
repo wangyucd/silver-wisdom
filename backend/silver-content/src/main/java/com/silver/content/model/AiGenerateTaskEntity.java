@@ -7,27 +7,47 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.silver.common.model.BaseEntity;
 
 /**
- * AI 生成任务。
+ * AI 生成任务实体。
+ * 记录用户发起的 AI 内容生成任务及其执行状态。
+ *
+ * @author wangyu03
+ * @since 2026/04/27 10:00
  */
 @TableName("ai_generate_task")
 public class AiGenerateTaskEntity extends BaseEntity {
 
-    /** 主键ID。 */
+    /**
+     * 主键ID
+     */
     @TableId(type = IdType.AUTO)
     private Long id;
-    /** 任务号。 */
+    /**
+     * 任务号
+     */
     private String taskId;
-    /** 用户ID。 */
+    /**
+     * 用户ID
+     */
     private Long userId;
-    /** 生成提示词。 */
+    /**
+     * 生成提示词
+     */
     private String prompt;
-    /** 生成场景。 */
+    /**
+     * 生成场景
+     */
     private String scene;
-    /** 任务状态。 */
+    /**
+     * 任务状态
+     */
     private String status;
-    /** 失败原因。 */
+    /**
+     * 失败原因
+     */
     private String failReason;
-    /** 生成结果。 */
+    /**
+     * 生成结果
+     */
     @TableField(exist = false)
     private AiGenerateResultEntity result;
 

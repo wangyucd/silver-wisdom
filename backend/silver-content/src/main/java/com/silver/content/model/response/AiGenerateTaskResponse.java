@@ -4,16 +4,27 @@ import com.silver.content.model.AiGenerateResultEntity;
 
 /**
  * AI 生成任务响应。
+ *
+ * @author wangyu03
+ * @since 2026/04/27 10:00
  */
 public class AiGenerateTaskResponse {
 
-    /** 任务号。 */
+    /**
+     * 任务号
+     */
     private String taskId;
-    /** 任务状态。 */
+    /**
+     * 任务状态
+     */
     private String status;
-    /** 生成结果。 */
+    /**
+     * 生成结果
+     */
     private AiGenerateResultEntity result;
-    /** 失败原因。 */
+    /**
+     * 失败原因
+     */
     private String failReason;
 
     public String getTaskId() {

@@ -12,12 +12,16 @@ import org.springframework.util.StringUtils;
 
 /**
  * 微信 openId 模拟解析器。
+ * 在 mock 模式下基于 code 生成模拟 openId，用于本地开发测试。
+ *
+ * @author wangyu03
+ * @since 2026/04/27 10:00
  */
 @Component
 public class MockWxOpenIdResolver implements WxOpenIdResolver {
 
     /**
-     * 微信认证配置。
+     * 微信认证配置
      */
     private final WxMiniAuthProperties properties;
 
@@ -32,6 +36,7 @@ public class MockWxOpenIdResolver implements WxOpenIdResolver {
 
     /**
      * 解析微信 openId。
+     * mock 模式下生成基于 code 的哈希值作为模拟 openId。
      *
      * @param code 微信登录 code
      * @return openId

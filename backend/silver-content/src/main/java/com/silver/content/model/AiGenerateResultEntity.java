@@ -6,23 +6,39 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.silver.common.model.BaseEntity;
 
 /**
- * AI 生成结果。
+ * AI 生成结果实体。
+ * 存储 AI 生成任务的输出内容，包括标题、摘要、大纲和正文。
+ *
+ * @author wangyu03
+ * @since 2026/04/27 10:00
  */
 @TableName("ai_generate_result")
 public class AiGenerateResultEntity extends BaseEntity {
 
-    /** 主键ID。 */
+    /**
+     * 主键ID
+     */
     @TableId(type = IdType.AUTO)
     private Long id;
-    /** 任务号。 */
+    /**
+     * 任务号
+     */
     private String taskId;
-    /** 结果标题。 */
+    /**
+     * 结果标题
+     */
     private String title;
-    /** 结果摘要。 */
+    /**
+     * 结果摘要
+     */
     private String summary;
-    /** 结果正文。 */
+    /**
+     * 结果正文
+     */
     private String body;
-    /** 结果大纲。 */
+    /**
+     * 结果大纲
+     */
     private String outline;
 
     public Long getId() {

@@ -7,22 +7,38 @@ import com.silver.common.model.BaseEntity;
 
 /**
  * 内容分类实体。
+ * 用于对平台内容进行分类管理。
+ *
+ * @author wangyu03
+ * @since 2026/04/27 10:00
  */
 @TableName("category")
 public class CategoryEntity extends BaseEntity {
 
-    /** 分类ID。 */
+    /**
+     * 分类ID
+     */
     @TableId(type = IdType.AUTO)
     private Long id;
-    /** 分类名称。 */
+    /**
+     * 分类名称
+     */
     private String name;
-    /** 分类图标地址。 */
+    /**
+     * 分类图标地址
+     */
     private String iconUrl;
-    /** 分类封面地址。 */
+    /**
+     * 分类封面地址
+     */
     private String coverUrl;
-    /** 排序值。 */
+    /**
+     * 排序值
+     */
     private int sort;
-    /** 分类状态。 */
+    /**
+     * 分类状态
+     */
     private Integer status;
 
     public Long getId() {

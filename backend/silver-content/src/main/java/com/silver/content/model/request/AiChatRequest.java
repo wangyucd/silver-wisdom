@@ -4,12 +4,19 @@ import java.util.List;
 
 /**
  * AI 问答请求。
+ *
+ * @author wangyu03
+ * @since 2026/04/27 10:00
  */
 public class AiChatRequest {
 
-    /** 用户问题。 */
+    /**
+     * 用户问题
+     */
     private String question;
-    /** 上下文内容ID列表。 */
+    /**
+     * 上下文内容ID列表
+     */
     private List<Long> contextItemIds;
 
     public String getQuestion() {

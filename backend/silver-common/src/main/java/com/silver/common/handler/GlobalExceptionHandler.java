@@ -9,12 +9,17 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 /**
  * 全局异常处理器。
+ * 统一拦截并处理系统中各类异常，转换为标准响应格式。
+ *
+ * @author wangyu03
+ * @since 2026/04/27 10:00
  */
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
     /**
      * 处理业务异常。
+     * 返回业务错误码和错误信息。
      *
      * @param e 业务异常
      * @return 统一响应
@@ -26,6 +31,7 @@ public class GlobalExceptionHandler {
 
     /**
      * 处理未登录异常。
+     * 返回 401 未登录状态。
      *
      * @param e 未登录异常
      * @return 统一响应
@@ -37,6 +43,7 @@ public class GlobalExceptionHandler {
 
     /**
      * 处理无权限异常。
+     * 返回 403 无权限状态。
      *
      * @param e 无权限异常
      * @return 统一响应
@@ -48,6 +55,7 @@ public class GlobalExceptionHandler {
 
     /**
      * 处理兜底异常。
+     * 捕获所有未被特定处理器处理的异常，返回 500 错误。
      *
      * @param e 未知异常
      * @return 统一响应

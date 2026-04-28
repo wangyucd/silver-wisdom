@@ -13,6 +13,10 @@ import org.springframework.stereotype.Service;
 
 /**
  * 管理员账号基础数据访问实现。
+ * 提供管理员账号的 CRUD 操作及种子数据初始化。
+ *
+ * @author wangyu03
+ * @since 2026/04/27 10:00
  */
 @Service
 public class AdminAccountInfraServiceImpl extends ServiceImpl<AdminAccountMapper, AdminAccountEntity>
@@ -24,12 +28,12 @@ public class AdminAccountInfraServiceImpl extends ServiceImpl<AdminAccountMapper
     private static final String SYSTEM_AUDIT_ACTOR = "0｜系统";
 
     /**
-     * 密码编码器。
+     * 密码编码器
      */
     private final BCryptPasswordEncoder passwordEncoder;
 
     /**
-     * 构造管理员基础数据访问实现。
+     * 构造管理员账号基础服务。
      *
      * @param passwordEncoder 密码编码器
      */

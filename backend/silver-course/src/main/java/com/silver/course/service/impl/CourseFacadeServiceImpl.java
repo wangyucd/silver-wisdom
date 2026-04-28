@@ -8,16 +8,34 @@ import org.springframework.stereotype.Service;
 
 /**
  * 学习中心门面服务实现。
+ *
+ * @author wangyu03
+ * @since 2026/04/27 10:00
  */
 @Service
 public class CourseFacadeServiceImpl implements CourseFacadeService {
 
+    /**
+     * 学习记录查询数据访问。
+     */
     private final LearnRecordQueryMapper learnRecordQueryMapper;
 
+    /**
+     * 构造学习中心门面服务。
+     *
+     * @param learnRecordQueryMapper 学习记录查询数据访问
+     */
     public CourseFacadeServiceImpl(LearnRecordQueryMapper learnRecordQueryMapper) {
         this.learnRecordQueryMapper = learnRecordQueryMapper;
     }
 
+    /**
+     * 查询用户生成内容分页列表。
+     *
+     * @param pageNum 页码
+     * @param pageSize 每页大小
+     * @return 生成内容分页数据
+     */
     @Override
     public GeneratedLearnPageResponse generatedPage(int pageNum, int pageSize) {
         int normalizedPageNum = Math.max(pageNum, 1);

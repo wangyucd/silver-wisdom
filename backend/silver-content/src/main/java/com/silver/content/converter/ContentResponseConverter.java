@@ -10,12 +10,17 @@ import org.mapstruct.ReportingPolicy;
 
 /**
  * 内容域响应对象转换器。
+ * 提供内容相关实体到响应对象的转换能力。
+ *
+ * @author wangyu03
+ * @since 2026/04/27 10:00
  */
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface ContentResponseConverter {
 
     /**
      * 转换引用响应。
+     * 将内容实体转换为 AI 问答引用对象。
      *
      * @param contentItem 内容信息
      * @return 引用响应
@@ -27,6 +32,7 @@ public interface ContentResponseConverter {
 
     /**
      * 转换 AI 任务响应。
+     * 将生成任务实体转换为任务响应。
      *
      * @param task 任务信息
      * @return 任务响应

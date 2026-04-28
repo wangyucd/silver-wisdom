@@ -8,22 +8,38 @@ import java.time.LocalDateTime;
 
 /**
  * 学习记录实体。
+ * 记录用户的学习行为和进度。
+ *
+ * @author wangyu03
+ * @since 2026/04/27 10:00
  */
 @TableName("learn_record")
 public class LearnRecordEntity extends BaseEntity {
 
-    /** 主键ID。 */
+    /**
+     * 主键ID
+     */
     @TableId(type = IdType.AUTO)
     private Long id;
-    /** 用户ID。 */
+    /**
+     * 用户ID
+     */
     private Long userId;
-    /** 记录类型。 */
+    /**
+     * 记录类型
+     */
     private String recordType;
-    /** 关联业务ID。 */
+    /**
+     * 关联业务ID
+     */
     private String bizId;
-    /** 学习进度。 */
+    /**
+     * 学习进度
+     */
     private Integer progress;
-    /** 最近查看时间。 */
+    /**
+     * 最近查看时间
+     */
     private LocalDateTime lastViewTime;
 
     public Long getId() {

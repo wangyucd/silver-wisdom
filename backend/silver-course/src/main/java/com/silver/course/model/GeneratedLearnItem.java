@@ -4,16 +4,27 @@ import java.time.LocalDateTime;
 
 /**
  * 已生成学习内容列表项。
+ *
+ * @author wangyu03
+ * @since 2026/04/27 10:00
  */
 public class GeneratedLearnItem {
 
-    /** 任务号。 */
+    /**
+     * 任务号
+     */
     private String taskId;
-    /** 标题。 */
+    /**
+     * 标题
+     */
     private String title;
-    /** 摘要。 */
+    /**
+     * 摘要
+     */
     private String summary;
-    /** 创建时间。 */
+    /**
+     * 创建时间
+     */
     private LocalDateTime createdAt;
 
     public String getTaskId() {

@@ -2,14 +2,23 @@ package com.silver.content.model.response;
 
 /**
  * AI 问答引用响应。
+ *
+ * @author wangyu03
+ * @since 2026/04/27 10:00
  */
 public class ReferenceResponse {
 
-    /** 内容ID。 */
+    /**
+     * 内容ID
+     */
     private Long contentId;
-    /** 内容标题。 */
+    /**
+     * 内容标题
+     */
     private String title;
-    /** 引用片段。 */
+    /**
+     * 引用片段
+     */
     private String snippet;
 
     public Long getContentId() {

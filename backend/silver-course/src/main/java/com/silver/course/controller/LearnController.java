@@ -8,6 +8,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * 学习中心控制器。
+ *
+ * @author wangyu03
+ * @since 2026/04/27 10:00
+ */
 @RestController
 @RequestMapping("/course/learn")
 public class LearnController {

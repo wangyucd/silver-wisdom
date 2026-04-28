@@ -4,9 +4,23 @@ import java.util.ArrayList;
 import java.util.List;
 import org.springframework.stereotype.Service;
 
+/**
+ * AI 网关服务模拟实现。
+ * 用于本地开发环境，提供预设的模拟响应。
+ *
+ * @author wangyu03
+ * @since 2026/04/27 10:00
+ */
 @Service
 public class MockAiGatewayService implements AiGatewayService {
 
+    /**
+     * 执行模拟 AI 任务。
+     * 返回基于请求上下文的预设模拟结果。
+     *
+     * @param context AI 任务上下文
+     * @return 模拟 AI 执行结果
+     */
     @Override
     public AiGatewayResult execute(AiGatewayContext context) {
         AiGatewayResult result = new AiGatewayResult();

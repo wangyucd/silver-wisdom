@@ -18,6 +18,10 @@ import org.springframework.util.StringUtils;
 
 /**
  * 管理员认证服务实现。
+ * 提供管理员登录、登出及当前管理员信息查询能力。
+ *
+ * @author wangyu03
+ * @since 2026/04/27 10:00
  */
 @Service
 public class AdminAuthServiceImpl implements AdminAuthService {

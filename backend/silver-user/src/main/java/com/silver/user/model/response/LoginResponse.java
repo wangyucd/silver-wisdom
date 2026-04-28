@@ -5,18 +5,29 @@ import lombok.Setter;
 
 /**
  * 小程序登录响应。
+ *
+ * @author wangyu03
+ * @since 2026/04/27 10:00
  */
 @Getter
 @Setter
 public class LoginResponse {
 
-    /** 访问令牌。 */
+    /**
+     * 访问令牌
+     */
     private String token;
-    /** 用户ID。 */
+    /**
+     * 用户ID
+     */
     private Long userId;
-    /** 是否新用户。 */
+    /**
+     * 是否新用户
+     */
     private boolean newUser;
-    /** 登录类型。 */
+    /**
+     * 登录类型
+     */
     private String loginType;
 
 }

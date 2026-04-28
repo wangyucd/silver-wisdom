@@ -7,12 +7,17 @@ import lombok.Setter;
 
 /**
  * 用户标签响应。
+ *
+ * @author wangyu03
+ * @since 2026/04/27 10:00
  */
 @Getter
 @Setter
 public class UserTagResponse {
 
-    /** 标签列表。 */
+    /**
+     * 用户标签列表
+     */
     private List<UserInterestTagEntity> tags;
 
 }

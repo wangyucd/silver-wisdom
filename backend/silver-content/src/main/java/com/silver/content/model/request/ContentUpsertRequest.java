@@ -4,26 +4,47 @@ import java.util.List;
 
 /**
  * 内容新增或更新请求。
+ *
+ * @author wangyu03
+ * @since 2026/04/27 10:00
  */
 public class ContentUpsertRequest {
 
-    /** 内容标题。 */
+    /**
+     * 内容标题
+     */
     private String title;
-    /** 内容摘要。 */
+    /**
+     * 内容摘要
+     */
     private String summary;
-    /** 封面图地址。 */
+    /**
+     * 封面图地址
+     */
     private String coverUrl;
-    /** 内容类型。 */
+    /**
+     * 内容类型
+     */
     private String type;
-    /** 图文正文。 */
+    /**
+     * 图文正文
+     */
     private String contentBody;
-    /** 视频地址。 */
+    /**
+     * 视频地址
+     */
     private String videoUrl;
-    /** 分类ID。 */
+    /**
+     * 分类ID
+     */
     private Long categoryId;
-    /** 热度分值。 */
+    /**
+     * 热度分值
+     */
     private int heatScore;
-    /** 标签列表。 */
+    /**
+     * 标签列表
+     */
     private List<String> tags;
 
     public String getTitle() {

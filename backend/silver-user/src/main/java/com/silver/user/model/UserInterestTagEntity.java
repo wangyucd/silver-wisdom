@@ -9,7 +9,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * 用户兴趣标签。
+ * 用户兴趣标签实体。
+ *
+ * @author wangyu03
+ * @since 2026/04/27 10:00
  */
 @TableName("user_interest_tag")
 @Getter
@@ -17,16 +20,26 @@ import lombok.Setter;
 @NoArgsConstructor
 public class UserInterestTagEntity extends BaseEntity {
 
-    /** 主键ID。 */
+    /**
+     * 主键ID
+     */
     @TableId(type = IdType.AUTO)
     private Long id;
-    /** 用户ID。 */
+    /**
+     * 用户ID
+     */
     private Long userId;
-    /** 标签名称。 */
+    /**
+     * 标签名称
+     */
     private String tag;
-    /** 标签权重。 */
+    /**
+     * 标签权重
+     */
     private double weight;
-    /** 标签来源。 */
+    /**
+     * 标签来源
+     */
     private String source;
 
     public UserInterestTagEntity(String tag, double weight) {

@@ -2,12 +2,34 @@ package com.silver.content.service.ai;
 
 import java.util.List;
 
+/**
+ * AI 网关执行结果。
+ * 封装 AI 任务返回的结构化内容，包括回答、标题、摘要、大纲和段落。
+ *
+ * @author wangyu03
+ * @since 2026/04/27 10:00
+ */
 public class AiGatewayResult {
 
+    /**
+     * 回答内容
+     */
     private String answer;
+    /**
+     * 生成内容标题
+     */
     private String title;
+    /**
+     * 生成内容摘要
+     */
     private String summary;
+    /**
+     * 内容大纲
+     */
     private String outline;
+    /**
+     * 内容段落列表
+     */
     private List<String> paragraphs;
 
     public String getAnswer() {

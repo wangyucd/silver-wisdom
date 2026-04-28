@@ -2,16 +2,27 @@ package com.silver.content.model.request;
 
 /**
  * 热点新增或更新请求。
+ *
+ * @author wangyu03
+ * @since 2026/04/27 10:00
  */
 public class HotspotUpsertRequest {
 
-    /** 热点标题。 */
+    /**
+     * 热点标题
+     */
     private String title;
-    /** 热点摘要。 */
+    /**
+     * 热点摘要
+     */
     private String summary;
-    /** 封面图地址。 */
+    /**
+     * 封面图地址
+     */
     private String coverUrl;
-    /** 热点权重。 */
+    /**
+     * 热点权重
+     */
     private int weight;
 
     public String getTitle() {

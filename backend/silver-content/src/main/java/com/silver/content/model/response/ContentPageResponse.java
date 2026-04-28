@@ -5,12 +5,19 @@ import java.util.List;
 
 /**
  * 内容分页响应。
+ *
+ * @author wangyu03
+ * @since 2026/04/27 10:00
  */
 public class ContentPageResponse {
 
-    /** 总记录数。 */
+    /**
+     * 总记录数
+     */
     private long total;
-    /** 当前页数据。 */
+    /**
+     * 当前页数据
+     */
     private List<ContentItemEntity> list;
 
     public long getTotal() {

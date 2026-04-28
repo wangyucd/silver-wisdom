@@ -5,8 +5,11 @@ import java.io.Serializable;
 
 /**
  * 统一响应体。
+ * 封装所有 API 接口的统一返回格式。
  *
  * @param <T> 数据类型
+ * @author wangyu03
+ * @since 2026/04/27 10:00
  */
 public class R<T> implements Serializable {
 

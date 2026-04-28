@@ -10,23 +10,38 @@ import lombok.Setter;
 
 /**
  * 管理员账号实体。
+ *
+ * @author wangyu03
+ * @since 2026/04/27 10:00
  */
 @TableName("admin_account")
 @Getter
 @Setter
 public class AdminAccountEntity extends BaseEntity {
 
-    /** 管理员主键。 */
+    /**
+     * 管理员主键
+     */
     @TableId(type = IdType.AUTO)
     private Long id;
-    /** 登录账号。 */
+    /**
+     * 登录账号
+     */
     private String username;
-    /** 密码哈希。 */
+    /**
+     * 密码哈希
+     */
     private String passwordHash;
-    /** 展示名称。 */
+    /**
+     * 展示名称
+     */
     private String name;
-    /** 账号状态。 */
+    /**
+     * 账号状态
+     */
     private String status;
-    /** 最近登录时间。 */
+    /**
+     * 最近登录时间
+     */
     private LocalDateTime lastLoginTime;
 }

@@ -11,7 +11,6 @@ import com.silver.user.model.UserInterestTagEntity;
 import com.silver.user.service.IUserAccountInfraService;
 import jakarta.annotation.PostConstruct;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -19,6 +18,10 @@ import org.springframework.stereotype.Service;
 
 /**
  * 用户账号基础数据访问实现。
+ * 提供用户账号的 CRUD 操作、标签关联查询及种子数据初始化。
+ *
+ * @author wangyu03
+ * @since 2026/04/27 10:00
  */
 @Service
 public class UserAccountInfraServiceImpl extends ServiceImpl<UserAccountMapper, UserAccountEntity>
@@ -30,19 +33,21 @@ public class UserAccountInfraServiceImpl extends ServiceImpl<UserAccountMapper, 
     private static final String SYSTEM_AUDIT_ACTOR = "0｜系统";
 
     /**
-     * 用户兴趣标签 Mapper。
+     * 用户兴趣标签 Mapper
      */
     private final UserInterestTagMapper userInterestTagMapper;
 
     /**
-     * 构造用户基础数据访问实现。
+     * 构造用户账号基础服务。
+     *
+     * @param userInterestTagMapper 用户兴趣标签 Mapper
      */
     public UserAccountInfraServiceImpl(UserInterestTagMapper userInterestTagMapper) {
         this.userInterestTagMapper = userInterestTagMapper;
     }
 
     /**
-     * 按 openId 查询用户。
+     * 按 openId 查询用户并关联标签。
      *
      * @param openId 微信 openId
      * @return 用户信息
@@ -53,7 +58,7 @@ public class UserAccountInfraServiceImpl extends ServiceImpl<UserAccountMapper, 
     }
 
     /**
-     * 按ID查询用户。
+     * 按用户ID查询用户并关联标签。
      *
      * @param userId 用户ID
      * @return 用户信息
@@ -64,7 +69,8 @@ public class UserAccountInfraServiceImpl extends ServiceImpl<UserAccountMapper, 
     }
 
     /**
-     * 创建小程序用户。
+     * 创建新的小程序用户。
+     * 自动分配默认昵称和状态。
      *
      * @param openId 微信 openId
      * @return 新建用户
@@ -89,7 +95,7 @@ public class UserAccountInfraServiceImpl extends ServiceImpl<UserAccountMapper, 
     }
 
     /**
-     * 查询全部用户。
+     * 查询全部用户并关联标签。
      *
      * @return 用户列表
      */
@@ -100,6 +106,7 @@ public class UserAccountInfraServiceImpl extends ServiceImpl<UserAccountMapper, 
 
     /**
      * 初始化用户种子数据。
+     * 仅在数据库为空时执行。
      */
     @PostConstruct
     public void initSeedData() {
@@ -121,7 +128,7 @@ public class UserAccountInfraServiceImpl extends ServiceImpl<UserAccountMapper, 
     }
 
     /**
-     * 初始化用户种子数据。
+     * 初始化种子用户数据。
      */
     private void seedUsers() {
         if (count() > 0) {

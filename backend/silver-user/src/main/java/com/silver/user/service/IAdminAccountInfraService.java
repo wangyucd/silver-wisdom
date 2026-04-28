@@ -6,6 +6,10 @@ import java.util.Optional;
 
 /**
  * 管理员账号基础数据访问接口。
+ * 提供管理员账号的基础 CRUD 及查询能力。
+ *
+ * @author wangyu03
+ * @since 2026/04/27 10:00
  */
 public interface IAdminAccountInfraService extends IService<AdminAccountEntity> {
 

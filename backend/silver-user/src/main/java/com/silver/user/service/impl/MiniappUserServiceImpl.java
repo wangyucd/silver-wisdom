@@ -28,6 +28,10 @@ import org.springframework.util.StringUtils;
 
 /**
  * 小程序用户服务实现。
+ * 提供用户画像管理、管理端用户查询与状态变更等能力。
+ *
+ * @author wangyu03
+ * @since 2026/04/27 10:00
  */
 @Service
 public class MiniappUserServiceImpl implements MiniappUserService {

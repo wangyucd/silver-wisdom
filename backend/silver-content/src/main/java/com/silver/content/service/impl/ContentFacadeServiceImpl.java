@@ -40,22 +40,67 @@ import org.springframework.util.StringUtils;
 
 /**
  * 内容门面服务实现。
+ *
+ * @author wangyu03
+ * @since 2026/04/27 10:00
  */
 @Service
 public class ContentFacadeServiceImpl implements ContentFacadeService {
 
+    /**
+     * 系统管理员审计主体。
+     */
     private static final String SYSTEM_ADMIN_ACTOR = "1｜系统管理员";
+    /**
+     * 小程序用户审计主体名称。
+     */
     private static final String MINIAPP_USER_AUDIT_NAME = "小程序用户";
 
+    /**
+     * 热点基础服务。
+     */
     private final IHotspotInfraService hotspotInfraService;
+    /**
+     * 分类基础服务。
+     */
     private final ICategoryInfraService categoryInfraService;
+    /**
+     * 内容项基础服务。
+     */
     private final IContentItemInfraService contentItemInfraService;
+    /**
+     * AI生成任务基础服务。
+     */
     private final IAiGenerateTaskInfraService aiGenerateTaskInfraService;
+    /**
+     * AI生成结果数据访问。
+     */
     private final AiGenerateResultMapper aiGenerateResultMapper;
+    /**
+     * 内容标签关系数据访问。
+     */
     private final ContentTagRelMapper contentTagRelMapper;
+    /**
+     * AI网关服务。
+     */
     private final AiGatewayService aiGatewayService;
+    /**
+     * 内容响应转换器。
+     */
     private final ContentResponseConverter contentResponseConverter;
 
+    /**
+     * 构造内容门面服务。
+     *
+     * @param hotspotInfraService 热点基础服务
+     * @param categoryInfraService 分类基础服务
+     * @param contentItemInfraService 内容项基础服务
+     * @param aiGenerateTaskInfraService AI生成任务基础服务
+     * @param aiGenerateResultMapper AI生成结果数据访问
+     * @param contentTagRelMapper 内容标签关系数据访问
+     * @param aiGatewayService AI网关服务
+     * @param contentResponseConverter 内容响应转换器
+     */
     public ContentFacadeServiceImpl(IHotspotInfraService hotspotInfraService,
                                     ICategoryInfraService categoryInfraService,
                                     IContentItemInfraService contentItemInfraService,

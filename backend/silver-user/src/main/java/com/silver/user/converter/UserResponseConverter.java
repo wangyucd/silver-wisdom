@@ -18,6 +18,10 @@ import org.mapstruct.ReportingPolicy;
 
 /**
  * 用户域响应对象转换器。
+ * 提供用户相关实体到响应对象的 MapStruct 转换能力。
+ *
+ * @author wangyu03
+ * @since 2026/04/27 10:00
  */
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface UserResponseConverter {

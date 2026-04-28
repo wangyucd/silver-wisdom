@@ -7,6 +7,10 @@ import org.apache.ibatis.annotations.Select;
 
 /**
  * 学习中心查询 Mapper。
+ * 提供学习记录的复杂查询能力。
+ *
+ * @author wangyu03
+ * @since 2026/04/27 10:00
  */
 public interface LearnRecordQueryMapper {
 
