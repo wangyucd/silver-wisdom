@@ -4,6 +4,8 @@ server:
 spring:
   application:
     name: silver-user
+  config:
+    import: optional:nacos:
   datasource:
     url: jdbc:mysql://${MYSQL_HOST:127.0.0.1}:${MYSQL_PORT:3306}/${MYSQL_DB:silver_wisdom}?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&useSSL=false
     username: ${MYSQL_USERNAME:root}
@@ -16,6 +18,8 @@ spring:
         enabled: ${NACOS_ENABLED:true}
       config:
         enabled: ${NACOS_ENABLED:true}
+      import-check:
+        enabled: false
   data:
     redis:
       host: ${REDIS_HOST:127.0.0.1}

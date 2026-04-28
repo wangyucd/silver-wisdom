@@ -4,6 +4,8 @@ server:
 spring:
   application:
     name: silver-gateway
+  config:
+    import: optional:nacos:
   cloud:
     nacos:
       server-addr: ${NACOS_ADDR:127.0.0.1:8848}
@@ -11,6 +13,8 @@ spring:
         enabled: ${NACOS_ENABLED:true}
       config:
         enabled: ${NACOS_ENABLED:true}
+      import-check:
+        enabled: false
     gateway:
       routes:
         - id: user-service

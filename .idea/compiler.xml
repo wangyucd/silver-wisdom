@@ -16,6 +16,8 @@
           <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct-processor/1.5.5.Final/mapstruct-processor-1.5.5.Final.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct/1.5.5.Final/mapstruct-1.5.5.Final.jar" />
         </processorPath>
+        <module name="silver-common" />
+        <module name="silver-gateway" />
         <module name="silver-content" />
         <module name="silver-course" />
         <module name="silver-user" />

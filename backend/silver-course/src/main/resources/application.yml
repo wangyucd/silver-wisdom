@@ -16,6 +16,8 @@ spring:
         enabled: ${NACOS_ENABLED:true}
       config:
         enabled: ${NACOS_ENABLED:true}
+      import-check:
+        enabled: false
   data:
     redis:
       host: ${REDIS_HOST:127.0.0.1}
