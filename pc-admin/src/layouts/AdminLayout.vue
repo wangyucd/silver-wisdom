@@ -1,7 +1,7 @@
 <template>
   <div class="min-h-screen bg-[linear-gradient(180deg,#eef4ff_0%,#f8fbff_35%,#f4f0ea_100%)] text-brand-900">
-    <div class="grid min-h-screen grid-cols-[264px,1fr]">
-      <aside class="flex flex-col justify-between bg-[linear-gradient(180deg,#123866_0%,#205493_100%)] px-5 py-7 text-white">
+    <div class="flex min-h-screen">
+      <aside class="w-66 flex flex-col justify-between bg-[linear-gradient(180deg,#123866_0%,#205493_100%)] px-5 py-7 text-white shrink-0">
         <div class="space-y-8">
           <div class="space-y-3">
             <div class="h-13 w-13 flex items-center justify-center rounded-2xl bg-white/18 text-lg font-700 tracking-wide">
@@ -37,7 +37,7 @@
         </el-button>
       </aside>
 
-      <main class="flex flex-col gap-5 p-7">
+      <main class="flex-1 flex flex-col gap-5 p-7 overflow-auto">
         <header class="rounded-3xl border border-white/65 bg-white/78 px-6 py-5 shadow-[0_24px_60px_rgba(32,84,147,0.12)] backdrop-blur">
           <div class="flex items-center justify-between">
             <div>

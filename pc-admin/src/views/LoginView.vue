@@ -39,8 +39,8 @@ const router = useRouter();
 const route = useRoute();
 
 const form = reactive({
-  username: '',
-  password: ''
+  username: 'admin',
+  password: 'admin123'
 });
 const submitting = ref(false);
 const errorText = ref('');

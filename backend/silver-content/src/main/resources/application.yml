@@ -15,8 +15,6 @@ spring:
       discovery:
         enabled: ${NACOS_ENABLED:true}
       config:
-        enabled: ${NACOS_ENABLED:true}
-      import-check:
         enabled: false
   data:
     redis:

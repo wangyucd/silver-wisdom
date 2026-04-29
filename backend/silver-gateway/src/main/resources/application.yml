@@ -4,18 +4,29 @@ server:
 spring:
   application:
     name: silver-gateway
-  config:
-    import: optional:nacos:
+  main:
+    web-application-type: reactive
   cloud:
     nacos:
       server-addr: ${NACOS_ADDR:127.0.0.1:8848}
       discovery:
         enabled: ${NACOS_ENABLED:true}
       config:
-        enabled: ${NACOS_ENABLED:true}
-      import-check:
         enabled: false
     gateway:
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowed-origin-patterns: "*"
+            allowed-methods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - OPTIONS
+            allowed-headers: "*"
+            allow-credentials: true
+            max-age: 3600
       routes:
         - id: user-service
           uri: lb://silver-user

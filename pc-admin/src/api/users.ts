@@ -10,18 +10,18 @@ export function fetchUsers(
     status?: string;
   }
 ) {
-  return request<UserPageResponse>('/user/admin/users', {
+  return request<UserPageResponse>('/api/user/admin/users', {
     token,
     query
   });
 }
 
 export function fetchUserDetail(token: string, userId: number) {
-  return request<UserDetailResponse>(`/user/admin/users/${userId}`, { token });
+  return request<UserDetailResponse>(`/api/user/admin/users/${userId}`, { token });
 }
 
 export function updateUserStatus(token: string, userId: number, payload: UpdateUserStatusRequest) {
-  return request<boolean>(`/user/admin/users/${userId}/status`, {
+  return request<boolean>(`/api/user/admin/users/${userId}/status`, {
     method: 'POST',
     token,
     body: payload

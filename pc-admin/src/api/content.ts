@@ -11,11 +11,11 @@ import type {
 } from '../types/domain';
 
 export function fetchHotspots(token: string) {
-  return request<HotspotEntity[]>('/content/admin/hotspots', { token });
+  return request<HotspotEntity[]>('/api/content/admin/hotspots', { token });
 }
 
 export function saveHotspot(token: string, payload: HotspotUpsertRequest, hotspotId?: number) {
-  return request<HotspotEntity>(hotspotId ? `/content/admin/hotspots/${hotspotId}` : '/content/admin/hotspots', {
+  return request<HotspotEntity>(hotspotId ? `/api/content/admin/hotspots/${hotspotId}` : '/api/content/admin/hotspots', {
     method: 'POST',
     token,
     body: payload
@@ -23,12 +23,12 @@ export function saveHotspot(token: string, payload: HotspotUpsertRequest, hotspo
 }
 
 export function fetchCategories(token: string) {
-  return request<CategoryEntity[]>('/content/categories', { token });
+  return request<CategoryEntity[]>('/api/content/categories', { token });
 }
 
 export function saveCategory(token: string, payload: CategoryUpsertRequest, categoryId?: number) {
   return request<CategoryEntity>(
-    categoryId ? `/content/admin/categories/${categoryId}` : '/content/admin/categories',
+    categoryId ? `/api/content/admin/categories/${categoryId}` : '/api/content/admin/categories',
     {
       method: 'POST',
       token,
@@ -38,12 +38,12 @@ export function saveCategory(token: string, payload: CategoryUpsertRequest, cate
 }
 
 export function fetchAdminContents(token: string) {
-  return request<ContentItemEntity[]>('/content/admin/contents', { token });
+  return request<ContentItemEntity[]>('/api/content/admin/contents', { token });
 }
 
 export function saveContent(token: string, payload: ContentUpsertRequest, contentId?: number) {
   return request<ContentItemEntity>(
-    contentId ? `/content/admin/contents/${contentId}` : '/content/admin/contents',
+    contentId ? `/api/content/admin/contents/${contentId}` : '/api/content/admin/contents',
     {
       method: 'POST',
       token,
@@ -56,14 +56,14 @@ export function saveContent(token: string, payload: ContentUpsertRequest, conten
 }
 
 export function fetchGeneratedLearn(token: string, pageNum = 1, pageSize = 10) {
-  return request<GeneratedLearnPageResponse>('/course/learn/generated', {
+  return request<GeneratedLearnPageResponse>('/api/course/learn/generated', {
     token,
     query: { pageNum, pageSize }
   });
 }
 
 export function fetchPublicContent(token: string, query: ContentListQuery) {
-  return request('/content/items', {
+  return request('/api/content/items', {
     token,
     query: query as Record<string, string | number | undefined | null>
   });

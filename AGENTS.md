@@ -1,7 +1,7 @@
 # silver-wisdom 项目级提示词
 
 ## 1. 使用方式
-- 本文件只承担“项目共性约束 + 目录路由规则”，不要在这里混入大量前端或后端专属细节。
+- 本文件只承担"项目共性约束 + 目录路由规则"，不要在这里混入大量前端或后端专属细节。
 - 当任务发生在某个子目录时，优先遵循对应子目录下的 `AGENTS.md`；根目录规则只作为公共基线。
 - 禁止把前端视觉、交互、构建细节用于后端代码生成；也禁止把后端分层、数据库、接口约束用于前端页面生成。
 - 如用户明确指定技术方案、目录范围或实现方式，以用户当次指令为最高优先级。
@@ -22,9 +22,64 @@
 ## 4. 跨端协作约束
 - 后端输出应重点描述接口契约、鉴权、缓存、事务、一致性、异常码，不展开前端 UI 细节。
 - 前端输出应重点描述页面结构、状态管理、交互流程、接口调用、容错展示，不擅自改写后端技术选型。
-- 如果任务只是“定义接口”或“联调约定”，可在根目录层描述前后端契约，但实现细节仍回到各自子目录提示词。
+- 如果任务只是"定义接口"或"联调约定"，可在根目录层描述前后端契约，但实现细节仍回到各自子目录提示词。
 
 ## 5. 最佳实践
-- 采用“1 个根提示词 + N 个子域提示词”的分层结构，而不是“一个超大万能提示词”。
-- 根提示词解决项目认知和路由问题；子域提示词解决专业规则问题；这样能显著降低上下文污染和错误生成。
+- 采用"1 个根提示词 + N 个子域提示词"的分层结构，而不是"一个超大万能提示词"。
+- 根提示词解决项目认知和目录路由问题；子域提示词解决专业规则问题；这样能显著降低上下文污染和错误生成。
 - 当新增新端或新服务时，在对应目录补充新的 `AGENTS.md`，不要持续膨胀根提示词。
+
+## 6. 常用开发命令
+
+### 后端（backend/）
+```bash
+# 全量构建
+mvn clean package
+
+# 启动单个服务
+mvn -pl silver-gateway spring-boot:run
+mvn -pl silver-user spring-boot:run
+mvn -pl silver-content spring-boot:run
+mvn -pl silver-course spring-boot:run
+
+# 运行测试
+mvn test
+# 运行单个测试类
+mvn test -Dtest=UserServiceTest
+```
+注意：启动服务前需确保 Nacos、Redis 已运行。
+
+### 管理后台（pc-admin/）
+```bash
+npm install
+npm run dev      # 开发模式
+npm run build    # 构建生产版本
+npm run preview  # 预览构建结果
+```
+
+### 小程序（miniapp/）
+```bash
+npm install
+npm run typecheck  # 类型检查
+```
+
+## 7. 系统整体架构
+
+### 技术栈
+- **后端**：JDK 17, Spring Boot 3.2, Spring Cloud, Nacos, Redis, Sa-Token, MyBatis-Plus, MapStruct
+- **管理后台**：Vue 3, Vite, Element Plus, UnoCSS, TypeScript
+- **小程序**：微信小程序, TypeScript
+
+### 服务模块
+- **silver-gateway**：网关层，统一鉴权入口
+- **silver-user**：用户服务，账号与权限
+- **silver-content**：内容服务，发布与管理
+- **silver-course**：课程服务，章节与学习
+- **silver-common**：公共模块，工具类、统一响应、异常基类
+
+### 调用链路
+```
+小程序/PC端 → Gateway → (User/Content/Course) → 数据库
+                      ↓
+                  Nacos（服务发现）+ Redis（缓存/会话）
+```
