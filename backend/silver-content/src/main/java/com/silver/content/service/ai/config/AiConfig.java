@@ -1,17 +1,19 @@
 package com.silver.content.service.ai.config;
 
-import com.alibaba.cloud.ai.dashscope.chat.DashScopeChatOptions;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
 import org.springframework.ai.chat.memory.ChatMemory;
 import org.springframework.ai.chat.memory.InMemoryChatMemory;
 import org.springframework.ai.chat.model.ChatModel;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 
 /**
  * AI 配置类。
- * 配置 Spring AI Alibaba 的 ChatClient 实例，支持对话记忆。
+ * 配置 Spring AI 的 ChatClient 实例，支持对话记忆。
+ * 优先使用 OpenAI 兼容接口（火山引擎方舟平台）。
  *
  * @author wangyu03
  * @since 2026/04/30 10:00
@@ -31,21 +33,34 @@ public class AiConfig {
 
     /**
      * 配置默认 ChatClient 实例。
-     * 使用 DashScope 模型，支持对话记忆和日志记录。
+     * 使用 OpenAI 兼容接口（火山引擎方舟平台），支持对话记忆。
      *
-     * @param chatModel  Spring AI 自动装配的 ChatModel
-     * @param chatMemory 对话记忆实例
+     * @param openAiChatModel OpenAI ChatModel
+     * @param chatMemory      对话记忆实例
      * @return ChatClient 实例
      */
     @Bean
-    public ChatClient chatClient(ChatModel chatModel, ChatMemory chatMemory) {
-        DashScopeChatOptions defaultOptions = DashScopeChatOptions.builder()
-                .withTopP(0.9)
-                .build();
-
-        return ChatClient.builder(chatModel)
+    @Primary
+    public ChatClient chatClient(ChatModel openAiChatModel, ChatMemory chatMemory) {
+        return ChatClient.builder(openAiChatModel)
                 .defaultAdvisors(new MessageChatMemoryAdvisor(chatMemory))
-                .defaultOptions(defaultOptions)
+                .build();
+    }
+
+    /**
+     * 配置 DashScope ChatClient 实例。
+     * 保留 DashScope 模型作为备选。
+     *
+     * @param dashScopeChatModel DashScope ChatModel
+     * @param chatMemory         对话记忆实例
+     * @return ChatClient 实例
+     */
+    @Bean
+    public ChatClient dashScopeChatClient(
+            @Qualifier("dashScopeChatModel") ChatModel dashScopeChatModel,
+            ChatMemory chatMemory) {
+        return ChatClient.builder(dashScopeChatModel)
+                .defaultAdvisors(new MessageChatMemoryAdvisor(chatMemory))
                 .build();
     }
 }
