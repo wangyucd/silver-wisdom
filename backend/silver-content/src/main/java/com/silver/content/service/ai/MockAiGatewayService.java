@@ -2,15 +2,18 @@ package com.silver.content.service.ai;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 /**
  * AI 网关服务模拟实现。
  * 用于本地开发环境，提供预设的模拟响应。
+ * 仅在 dev 环境激活。
  *
  * @author wangyu03
  * @since 2026/04/27 10:00
  */
+@Profile("dev")
 @Service
 public class MockAiGatewayService implements AiGatewayService {
 

@@ -27,6 +27,10 @@ public class AiGatewayContext {
      * 知识片段列表
      */
     private List<String> knowledgeSnippets;
+    /**
+     * 对话 ID，用于多轮对话记忆隔离
+     */
+    private String conversationId;
 
     public String getScene() {
         return scene;
@@ -58,5 +62,13 @@ public class AiGatewayContext {
 
     public void setKnowledgeSnippets(List<String> knowledgeSnippets) {
         this.knowledgeSnippets = knowledgeSnippets;
+    }
+
+    public String getConversationId() {
+        return conversationId;
+    }
+
+    public void setConversationId(String conversationId) {
+        this.conversationId = conversationId;
     }
 }

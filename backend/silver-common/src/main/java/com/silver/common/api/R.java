@@ -60,6 +60,17 @@ public class R<T> implements Serializable {
     }
 
     /**
+     * 构造失败响应（默认错误码 500）。
+     *
+     * @param message 错误信息
+     * @param <T> 数据类型
+     * @return 失败响应
+     */
+    public static <T> R<T> fail(String message) {
+        return fail(500, message);
+    }
+
+    /**
      * 返回响应码。
      *
      * @return 响应码

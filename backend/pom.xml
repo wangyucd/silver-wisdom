@@ -23,6 +23,8 @@
         <spring-boot.version>3.2.5</spring-boot.version>
         <spring-cloud.version>2023.0.1</spring-cloud.version>
         <spring-cloud-alibaba.version>2023.0.1.0</spring-cloud-alibaba.version>
+        <spring-ai.version>1.0.0-M6</spring-ai.version>
+        <spring-ai-alibaba.version>1.0.0-M6.1</spring-ai-alibaba.version>
         <sa-token.version>1.37.0</sa-token.version>
         <mapstruct.version>1.5.5.Final</mapstruct.version>
         <mybatis-plus.version>3.5.7</mybatis-plus.version>
@@ -33,6 +35,13 @@
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>org.springframework.ai</groupId>
+                <artifactId>spring-ai-bom</artifactId>
+                <version>${spring-ai.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
@@ -53,6 +62,11 @@
                 <version>${spring-cloud-alibaba.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba.cloud.ai</groupId>
+                <artifactId>spring-ai-alibaba-starter</artifactId>
+                <version>${spring-ai-alibaba.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

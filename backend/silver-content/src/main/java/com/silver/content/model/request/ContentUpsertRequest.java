@@ -1,5 +1,6 @@
 package com.silver.content.model.request;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -46,6 +47,14 @@ public class ContentUpsertRequest {
      * 标签列表
      */
     private List<String> tags;
+    /**
+     * 发布时间
+     */
+    private LocalDateTime publishTime;
+    /**
+     * 发布状态
+     */
+    private String publishStatus;
 
     public String getTitle() {
         return title;
@@ -117,5 +126,21 @@ public class ContentUpsertRequest {
 
     public void setTags(List<String> tags) {
         this.tags = tags;
+    }
+
+    public LocalDateTime getPublishTime() {
+        return publishTime;
+    }
+
+    public void setPublishTime(LocalDateTime publishTime) {
+        this.publishTime = publishTime;
+    }
+
+    public String getPublishStatus() {
+        return publishStatus;
+    }
+
+    public void setPublishStatus(String publishStatus) {
+        this.publishStatus = publishStatus;
     }
 }
